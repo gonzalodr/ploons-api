@@ -1,0 +1,62 @@
+import { Request, Response } from "express";
+import { z } from "zod";
+import { StatusCodes } from "http-status-codes";
+import { SearchService } from "src/modules/search/search.service";
+import { AppError } from "@utils/appError.utils";
+
+export class SearchController {
+    private searchService: SearchService;
+
+    constructor() {
+        this.searchService = new SearchService();
+    }
+    // 1. search recipes
+    async searchRecipe(req: Request, res: Response) {
+        try {
+            // 1. validate query
+            const { q, page, limit } = this.validateQueryParams(req.query);
+            // 2. call services
+            const result = await this.searchService.searchRecipes(q, page, limit);
+            // 3. send result
+            return res.status(StatusCodes.OK).json(result);
+        } catch (error: any) {
+            if (error instanceof AppError) {
+                return res.status(error.statusCode).json({ message: error.message });
+            }
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+        }
+    }
+    // 2. search profile
+    async searchProfile(req: Request, res: Response) {
+        try {
+            // 1. validate query
+            const { q, page, limit } = this.validateQueryParams(req.query);
+            // 2. call services
+            const results = await this.searchService.searchProfiles(q, page, limit);
+            // 3. send data
+            return res.status(StatusCodes.OK).json(results);
+        } catch (error: any) {
+            if (error instanceof AppError) {
+                return res.status(error.statusCode).json({ message: error.message });
+            }
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+        }
+    }
+    // 3. validate querys
+    private validateQueryParams(query: any) {
+        const querySchema = z.object({
+            q: z.string().min(2, "La búsqueda debe tener al menos 2 caracteres").max(50),
+            page: z.preprocess((val) => parseInt(val as string) || 1, z.number().min(1)),
+            limit: z.preprocess((val) => parseInt(val as string) || 10, z.number().min(1))
+        });
+
+        const result = querySchema.safeParse(query);
+
+        if (!result.success) {
+            throw new AppError(result.error.message, StatusCodes.BAD_REQUEST);
+        }
+
+        return result.data;
+    }
+
+}
