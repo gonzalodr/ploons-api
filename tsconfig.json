@@ -16,15 +16,12 @@
     "baseUrl": ".", 
     "paths": {
       "@utils/*": ["./src/utils/*"],
-      "@controllers/*": ["./src/controllers/*"],
-      "@schemas/*": ["./src/schemas/*"],
       "@config/*": ["./src/config/*"],
       "@enums/*": ["./src/enums/*"],
       "@middlewares/*": ["./src/middlewares/*"],
-      "@services/*": ["./src/services/*"],
       "@types/*": ["./src/types/*"],
-      "@routes/*": ["./src/routes/*"],
-      "@module/*":["./src/module/*"]
+      "@module/*":["./src/module/*"],
+      "@docs/*":["./src/docs/*"]
     }
   },
   "include": [
