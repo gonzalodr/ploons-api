@@ -539,52 +539,55 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "content": {
-                          "type": "string"
-                        },
-                        "created_at": {
-                          "type": "string"
-                        },
-                        "replies_count": {
-                          "type": "string"
-                        },
-                        "author": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "username": {
-                              "type": "string"
-                            },
-                            "first_name": {
-                              "type": "string"
-                            },
-                            "last_name": {
-                              "type": "string"
-                            },
-                            "avatar_url": {
-                              "type": "string"
-                            },
-                            "relationship": {
-                              "type": "object",
-                              "properties": {
-                                "i_am_following": {
-                                  "type": "boolean"
-                                },
-                                "is_following_me": {
-                                  "type": "boolean"
-                                },
-                                "is_mutual": {
-                                  "type": "boolean"
-                                },
-                                "is_me": {
-                                  "type": "boolean"
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "content": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "replies_count": {
+                            "type": "string"
+                          },
+                          "author": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string"
+                              },
+                              "first_name": {
+                                "type": "string"
+                              },
+                              "last_name": {
+                                "type": "string"
+                              },
+                              "avatar_url": {
+                                "type": "string"
+                              },
+                              "relationship": {
+                                "type": "object",
+                                "properties": {
+                                  "i_am_following": {
+                                    "type": "boolean"
+                                  },
+                                  "is_following_me": {
+                                    "type": "boolean"
+                                  },
+                                  "is_mutual": {
+                                    "type": "boolean"
+                                  },
+                                  "is_me": {
+                                    "type": "boolean"
+                                  }
                                 }
                               }
                             }
@@ -754,89 +757,92 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "content": {
-                          "type": "string"
-                        },
-                        "created_at": {
-                          "type": "string"
-                        },
-                        "replies_count": {
-                          "type": "string"
-                        },
-                        "author": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "username": {
-                              "type": "string"
-                            },
-                            "first_name": {
-                              "type": "string"
-                            },
-                            "last_name": {
-                              "type": "string"
-                            },
-                            "avatar_url": {
-                              "type": "string"
-                            },
-                            "relationship": {
-                              "type": "object",
-                              "properties": {
-                                "i_am_following": {
-                                  "type": "boolean"
-                                },
-                                "is_following_me": {
-                                  "type": "boolean"
-                                },
-                                "is_mutual": {
-                                  "type": "boolean"
-                                },
-                                "is_me": {
-                                  "type": "boolean"
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "content": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "replies_count": {
+                            "type": "string"
+                          },
+                          "author": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string"
+                              },
+                              "first_name": {
+                                "type": "string"
+                              },
+                              "last_name": {
+                                "type": "string"
+                              },
+                              "avatar_url": {
+                                "type": "string"
+                              },
+                              "relationship": {
+                                "type": "object",
+                                "properties": {
+                                  "i_am_following": {
+                                    "type": "boolean"
+                                  },
+                                  "is_following_me": {
+                                    "type": "boolean"
+                                  },
+                                  "is_mutual": {
+                                    "type": "boolean"
+                                  },
+                                  "is_me": {
+                                    "type": "boolean"
+                                  }
                                 }
                               }
                             }
-                          }
-                        },
-                        "replying_to": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "username": {
-                              "type": "string"
-                            },
-                            "first_name": {
-                              "type": "string"
-                            },
-                            "last_name": {
-                              "type": "string"
-                            },
-                            "avatar_url": {
-                              "type": "string"
-                            },
-                            "relationship": {
-                              "type": "object",
-                              "properties": {
-                                "i_am_following": {
-                                  "type": "boolean"
-                                },
-                                "is_following_me": {
-                                  "type": "boolean"
-                                },
-                                "is_mutual": {
-                                  "type": "boolean"
-                                },
-                                "is_me": {
-                                  "type": "boolean"
+                          },
+                          "replying_to": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string"
+                              },
+                              "first_name": {
+                                "type": "string"
+                              },
+                              "last_name": {
+                                "type": "string"
+                              },
+                              "avatar_url": {
+                                "type": "string"
+                              },
+                              "relationship": {
+                                "type": "object",
+                                "properties": {
+                                  "i_am_following": {
+                                    "type": "boolean"
+                                  },
+                                  "is_following_me": {
+                                    "type": "boolean"
+                                  },
+                                  "is_mutual": {
+                                    "type": "boolean"
+                                  },
+                                  "is_me": {
+                                    "type": "boolean"
+                                  }
                                 }
                               }
                             }
@@ -1054,7 +1060,130 @@
         ],
         "responses": {
           "200": {
-            "description": "Feed obtenido correctamente"
+            "description": "Feed obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "activity_id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "shared_comment": {
+                            "type": "string"
+                          },
+                          "activity_date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "image_url": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "date_edit": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "sharer_id": {
+                            "type": "string"
+                          },
+                          "sharer_username": {
+                            "type": "string"
+                          },
+                          "share_first_name": {
+                            "type": "string"
+                          },
+                          "share_last_name": {
+                            "type": "string"
+                          },
+                          "sharer_avatar": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "author_id": {
+                            "type": "string"
+                          },
+                          "author_username": {
+                            "type": "string"
+                          },
+                          "author_first_name": {
+                            "type": "string"
+                          },
+                          "author_last_name": {
+                            "type": "string"
+                          },
+                          "author_url": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "is_liked": {
+                            "type": "boolean"
+                          },
+                          "is_commented": {
+                            "type": "boolean"
+                          },
+                          "is_shared": {
+                            "type": "boolean"
+                          },
+                          "is_saved": {
+                            "type": "boolean"
+                          },
+                          "likes_count": {
+                            "type": "integer"
+                          },
+                          "comments_count": {
+                            "type": "integer"
+                          },
+                          "shares_count": {
+                            "type": "integer"
+                          },
+                          "saves_count": {
+                            "type": "integer"
+                          },
+                          "trending_score": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1086,7 +1215,130 @@
         ],
         "responses": {
           "200": {
-            "description": "Tendencias obtenidas correctamente"
+            "description": "Tendencias obtenidas correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "activity_id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "shared_comment": {
+                            "type": "string"
+                          },
+                          "activity_date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "image_url": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "date_edit": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "sharer_id": {
+                            "type": "string"
+                          },
+                          "sharer_username": {
+                            "type": "string"
+                          },
+                          "share_first_name": {
+                            "type": "string"
+                          },
+                          "share_last_name": {
+                            "type": "string"
+                          },
+                          "sharer_avatar": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "author_id": {
+                            "type": "string"
+                          },
+                          "author_username": {
+                            "type": "string"
+                          },
+                          "author_first_name": {
+                            "type": "string"
+                          },
+                          "author_last_name": {
+                            "type": "string"
+                          },
+                          "author_url": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "is_liked": {
+                            "type": "boolean"
+                          },
+                          "is_commented": {
+                            "type": "boolean"
+                          },
+                          "is_shared": {
+                            "type": "boolean"
+                          },
+                          "is_saved": {
+                            "type": "boolean"
+                          },
+                          "likes_count": {
+                            "type": "integer"
+                          },
+                          "comments_count": {
+                            "type": "integer"
+                          },
+                          "shares_count": {
+                            "type": "integer"
+                          },
+                          "saves_count": {
+                            "type": "integer"
+                          },
+                          "trending_score": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1115,7 +1367,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Acción realizada con éxito"
+            "description": "Acción realizada con éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1151,7 +1415,77 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de mis seguidores"
+            "description": "Lista de mis seguidores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "username": {
+                            "type": "string"
+                          },
+                          "first_name": {
+                            "type": "string"
+                          },
+                          "last_name": {
+                            "type": "string"
+                          },
+                          "avatar": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "relationship": {
+                            "type": "object",
+                            "properties": {
+                              "i_am_following": {
+                                "type": "boolean"
+                              },
+                              "is_following_me": {
+                                "type": "boolean"
+                              },
+                              "is_mutual": {
+                                "type": "boolean"
+                              },
+                              "is_me": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        },
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "last_page": {
+                          "type": "integer"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1187,7 +1521,77 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de usuarios seguidos"
+            "description": "Lista de usuarios seguidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "username": {
+                            "type": "string"
+                          },
+                          "first_name": {
+                            "type": "string"
+                          },
+                          "last_name": {
+                            "type": "string"
+                          },
+                          "avatar": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "relationship": {
+                            "type": "object",
+                            "properties": {
+                              "i_am_following": {
+                                "type": "boolean"
+                              },
+                              "is_following_me": {
+                                "type": "boolean"
+                              },
+                              "is_mutual": {
+                                "type": "boolean"
+                              },
+                              "is_me": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        },
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "last_page": {
+                          "type": "integer"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1227,7 +1631,77 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista pública de seguidores"
+            "description": "Lista pública de seguidores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "username": {
+                            "type": "string"
+                          },
+                          "first_name": {
+                            "type": "string"
+                          },
+                          "last_name": {
+                            "type": "string"
+                          },
+                          "avatar": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "relationship": {
+                            "type": "object",
+                            "properties": {
+                              "i_am_following": {
+                                "type": "boolean"
+                              },
+                              "is_following_me": {
+                                "type": "boolean"
+                              },
+                              "is_mutual": {
+                                "type": "boolean"
+                              },
+                              "is_me": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        },
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "last_page": {
+                          "type": "integer"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1267,7 +1741,77 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista pública de seguidos"
+            "description": "Lista pública de seguidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "username": {
+                            "type": "string"
+                          },
+                          "first_name": {
+                            "type": "string"
+                          },
+                          "last_name": {
+                            "type": "string"
+                          },
+                          "avatar": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "relationship": {
+                            "type": "object",
+                            "properties": {
+                              "i_am_following": {
+                                "type": "boolean"
+                              },
+                              "is_following_me": {
+                                "type": "boolean"
+                              },
+                              "is_mutual": {
+                                "type": "boolean"
+                              },
+                              "is_me": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        },
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "last_page": {
+                          "type": "integer"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1356,11 +1900,57 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 3
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "prep_time_mins": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "difficulty": {
+                    "type": "string",
+                    "enum": [
+                      "Fácil",
+                      "Media",
+                      "Difícil"
+                    ]
+                  },
+                  "calories": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "is_published": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "ingredients": {
+                    "type": "string",
+                    "description": "Array de ingredientes serializado como JSON string",
+                    "example": "[{\"name\": \"Sal\", \"amount\": \"1tbsp\", \"order_index\": 1}]"
+                  },
+                  "steps": {
+                    "type": "string",
+                    "description": "Array de pasos serializado como JSON string",
+                    "example": "[{\"step_number\": 1, \"instruction\": \"Hervir el agua por 10 minutos\"}]"
+                  },
                   "image": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "description": "Opcional: Imagen de la receta"
                   }
-                }
+                },
+                "required": [
+                  "title",
+                  "prep_time_mins",
+                  "difficulty",
+                  "ingredients",
+                  "steps"
+                ]
               }
             }
           }
@@ -1443,18 +2033,108 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 3
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "prep_time_mins": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "difficulty": {
+                    "type": "string",
+                    "enum": [
+                      "Fácil",
+                      "Media",
+                      "Difícil"
+                    ]
+                  },
+                  "calories": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "is_published": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "ingredients": {
+                    "type": "string",
+                    "description": "Array de ingredientes serializado como JSON string",
+                    "example": "[{\"name\": \"Sal\", \"amount\": \"1tbsp\", \"order_index\": 1}]"
+                  },
+                  "steps": {
+                    "type": "string",
+                    "description": "Array de pasos serializado como JSON string",
+                    "example": "[{\"step_number\": 1, \"instruction\": \"Hervir el agua por 10 minutos\"}]"
+                  },
                   "image": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "description": "Opcional: Imagen de la receta"
                   }
-                }
+                },
+                "required": [
+                  "title",
+                  "prep_time_mins",
+                  "difficulty",
+                  "ingredients",
+                  "steps"
+                ]
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Receta creada"
+            "description": "Receta creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "prep_time_mins": {
+                      "type": "integer"
+                    },
+                    "difficulty": {
+                      "type": "string"
+                    },
+                    "calories": {
+                      "type": "number"
+                    },
+                    "is_published": {
+                      "type": "boolean"
+                    },
+                    "user_id": {
+                      "type": "string"
+                    },
+                    "image_url": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -40,9 +40,10 @@ export class RecipeService {
         });
 
         // 2. update file to cloudinary
-        let image_url = undefined;
+        let image_url: string | undefined = undefined;
         if (file) {
-            image_url = await CloudinaryService.uploadBuffer(file.buffer, 'recipe', `recipe_${create.id}`);
+            const result = await CloudinaryService.uploadBuffer(file.buffer, 'recipe', `recipe_${create.id}`);
+            image_url = result.url
         }
         //3. update url file in recipe
         return await prisma.recipes.update({
@@ -70,7 +71,7 @@ export class RecipeService {
         let image_url = recipe.image_url;
         if (file) {
             const uploadResult = await CloudinaryService.uploadBuffer(file.buffer, 'recipe', `recipe_${recipe.id}`);
-            image_url = uploadResult;
+            image_url = uploadResult.url;
         }
         // 3. Transacción de actualización
         return await prisma.recipes.update({
