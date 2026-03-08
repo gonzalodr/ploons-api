@@ -169,6 +169,7 @@ export class CommentService {
                 username: reply.comments?.profiles.username,
                 first_name: reply.comments?.profiles.first_name,
                 last_name: reply.comments?.profiles.last_name,
+                avatar_url: reply.comments?.profiles.avatar_url,
                 relationship: reply.comments ? this.mapRelationship(reply.comments.profiles, userId) : null
             }
         }));
