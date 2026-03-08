@@ -1847,7 +1847,130 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de mis recetas"
+            "description": "Lista de mis recetas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "image_url": {
+                          "type": "string",
+                          "format": "uri",
+                          "nullable": true
+                        },
+                        "is_published": {
+                          "type": "boolean",
+                          "nullable": true
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "nullable": true
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "nullable": true
+                        },
+                        "stats": {
+                          "type": "object",
+                          "properties": {
+                            "likes": {
+                              "type": "integer"
+                            },
+                            "comments": {
+                              "type": "integer"
+                            },
+                            "shares": {
+                              "type": "integer"
+                            },
+                            "saves": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        "author": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "username": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "first_name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "last_name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "avatar_url": {
+                              "type": "string",
+                              "format": "uri",
+                              "nullable": true
+                            },
+                            "relationship": {
+                              "type": "object",
+                              "properties": {
+                                "i_am_following": {
+                                  "type": "boolean"
+                                },
+                                "is_following_me": {
+                                  "type": "boolean"
+                                },
+                                "is_mutual": {
+                                  "type": "boolean"
+                                },
+                                "is_me": {
+                                  "type": "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        },
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "last_page": {
+                          "type": "integer"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1870,7 +1993,158 @@
         ],
         "responses": {
           "200": {
-            "description": "Receta obtenida"
+            "description": "Receta obtenida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stats": {
+                      "type": "object",
+                      "properties": {
+                        "likes": {
+                          "type": "integer"
+                        },
+                        "comments": {
+                          "type": "integer"
+                        },
+                        "saves": {
+                          "type": "integer"
+                        },
+                        "shares": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "author": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "first_name": {
+                          "type": "string"
+                        },
+                        "last_name": {
+                          "type": "string"
+                        },
+                        "avatar_url": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "relationship": {
+                          "type": "object",
+                          "properties": {
+                            "i_am_following": {
+                              "type": "boolean"
+                            },
+                            "is_following_me": {
+                              "type": "boolean"
+                            },
+                            "is_mutual": {
+                              "type": "boolean"
+                            },
+                            "is_me": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "recipe_ingredients": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "order_index": {
+                            "type": "integer"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "recipe_steps": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "step_number": {
+                            "type": "integer"
+                          },
+                          "instruction": {
+                            "type": "string"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "prep_time_mins": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "difficulty": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "calories": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "is_published": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "user_id": {
+                      "type": "string"
+                    },
+                    "image_url": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -1957,7 +2231,97 @@
         },
         "responses": {
           "200": {
-            "description": "Receta actualizada"
+            "description": "Receta actualizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "prep_time_mins": {
+                      "type": "integer"
+                    },
+                    "difficulty": {
+                      "type": "string"
+                    },
+                    "calories": {
+                      "type": "integer"
+                    },
+                    "is_published": {
+                      "type": "boolean"
+                    },
+                    "user_id": {
+                      "type": "string"
+                    },
+                    "image_url": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "recipe_ingredients": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "unit": {
+                            "type": "string"
+                          },
+                          "order_index": {
+                            "type": "integer"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "recipe_steps": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "step_number": {
+                            "type": "integer"
+                          },
+                          "instruction": {
+                            "type": "string"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -1983,7 +2347,51 @@
         ],
         "responses": {
           "200": {
-            "description": "Receta eliminada"
+            "description": "Receta eliminada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "prep_time_mins": {
+                      "type": "integer"
+                    },
+                    "difficulty": {
+                      "type": "string"
+                    },
+                    "calories": {
+                      "type": "integer"
+                    },
+                    "is_published": {
+                      "type": "boolean"
+                    },
+                    "user_id": {
+                      "type": "string"
+                    },
+                    "image_url": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2011,7 +2419,158 @@
         ],
         "responses": {
           "200": {
-            "description": "Receta privada obtenida"
+            "description": "Receta privada obtenida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stats": {
+                      "type": "object",
+                      "properties": {
+                        "likes": {
+                          "type": "integer"
+                        },
+                        "comments": {
+                          "type": "integer"
+                        },
+                        "saves": {
+                          "type": "integer"
+                        },
+                        "shares": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "author": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "first_name": {
+                          "type": "string"
+                        },
+                        "last_name": {
+                          "type": "string"
+                        },
+                        "avatar_url": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "relationship": {
+                          "type": "object",
+                          "properties": {
+                            "i_am_following": {
+                              "type": "boolean"
+                            },
+                            "is_following_me": {
+                              "type": "boolean"
+                            },
+                            "is_mutual": {
+                              "type": "boolean"
+                            },
+                            "is_me": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "recipe_ingredients": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "order_index": {
+                            "type": "integer"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "recipe_steps": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "step_number": {
+                            "type": "integer"
+                          },
+                          "instruction": {
+                            "type": "string"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "prep_time_mins": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "difficulty": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "calories": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "is_published": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "user_id": {
+                      "type": "string"
+                    },
+                    "image_url": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2094,7 +2653,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "properties": {
                     "id": {
                       "type": "string"
@@ -2112,7 +2670,7 @@
                       "type": "string"
                     },
                     "calories": {
-                      "type": "number"
+                      "type": "integer"
                     },
                     "is_published": {
                       "type": "boolean"
@@ -2130,6 +2688,52 @@
                     "updated_at": {
                       "type": "string",
                       "format": "date-time"
+                    },
+                    "recipe_ingredients": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "unit": {
+                            "type": "string"
+                          },
+                          "order_index": {
+                            "type": "integer"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "recipe_steps": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "step_number": {
+                            "type": "integer"
+                          },
+                          "instruction": {
+                            "type": "string"
+                          },
+                          "recipe_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -2152,7 +2756,72 @@
         ],
         "responses": {
           "200": {
-            "description": "Perfil obtenido"
+            "description": "Perfil obtenido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
+                    "full_name": {
+                      "type": "string"
+                    },
+                    "avatar_url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "bio": {
+                      "type": "string"
+                    },
+                    "count_followers": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "count_following": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "count_post": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "social_media": {
+                      "type": "object",
+                      "description": "Objeto JSON con enlaces a redes sociales",
+                      "additionalProperties": true,
+                      "example": {
+                        "instagram": "@usuario",
+                        "twitter": "https://x.com/usuario"
+                      }
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -2171,10 +2840,39 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "first_name",
+                  "last_name"
+                ],
                 "properties": {
+                  "first_name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50
+                  },
+                  "bio": {
+                    "type": "string",
+                    "maxLength": 160
+                  },
+                  "social_media": {
+                    "type": "string",
+                    "description": "Objeto JSON serializado con los enlaces de redes sociales.",
+                    "example": "{\"instagram\": \"https://instagram.com/usuario\", \"twitter\": \"https://x.com/usuario\"}"
+                  },
                   "avatar": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "description": "Nueva imagen de avatar"
+                  },
+                  "delete_avatar": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enviar 'true' para eliminar el avatar actual"
                   }
                 }
               }
@@ -2183,7 +2881,60 @@
         },
         "responses": {
           "200": {
-            "description": "Perfil actualizado"
+            "description": "Perfil actualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
+                    "full_name": {
+                      "type": "string"
+                    },
+                    "avatar_url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "bio": {
+                      "type": "string"
+                    },
+                    "social_media": {
+                      "type": "object",
+                      "description": "Objeto con redes sociales del usuario",
+                      "additionalProperties": true,
+                      "example": {
+                        "instagram": "https://instagram.com/usuario",
+                        "twitter": "https://x.com/usuario"
+                      }
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2206,7 +2957,81 @@
         ],
         "responses": {
           "200": {
-            "description": "Perfil obtenido"
+            "description": "Perfil obtenido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
+                    "avatar_url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "bio": {
+                      "type": "string"
+                    },
+                    "social_media": {
+                      "type": "object",
+                      "description": "Diccionario de redes sociales (Clave: red, Valor: URL/Nombre)",
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "example": {
+                        "instagram": "https://instagram.com/usuario",
+                        "twitter": "https://x.com/usuario",
+                        "website": "https://miweb.com"
+                      }
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "count_followers": {
+                      "type": "integer",
+                      "example": 1250
+                    },
+                    "count_following": {
+                      "type": "integer",
+                      "example": 450
+                    },
+                    "count_post": {
+                      "type": "integer",
+                      "example": 12
+                    },
+                    "relationship": {
+                      "type": "object",
+                      "properties": {
+                        "i_am_following": {
+                          "type": "boolean"
+                        },
+                        "is_following_me": {
+                          "type": "boolean"
+                        },
+                        "is_mutual": {
+                          "type": "boolean"
+                        },
+                        "is_me": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2234,7 +3059,22 @@
         ],
         "responses": {
           "200": {
-            "description": "Like alternado"
+            "description": "Like alternado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "total_likes": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2273,7 +3113,76 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de likes"
+            "description": "Lista de likes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "username": {
+                            "type": "string"
+                          },
+                          "first_name": {
+                            "type": "string"
+                          },
+                          "last_name": {
+                            "type": "string"
+                          },
+                          "avatar_url": {
+                            "type": "string"
+                          },
+                          "relationship": {
+                            "type": "object",
+                            "properties": {
+                              "i_am_following": {
+                                "type": "boolean"
+                              },
+                              "is_following_me": {
+                                "type": "boolean"
+                              },
+                              "is_mutual": {
+                                "type": "boolean"
+                              },
+                              "is_me": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "last_page": {
+                          "type": "number"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2301,7 +3210,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Estado del like obtenido"
+            "description": "Estado del like obtenido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isLiked": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2329,7 +3250,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Receta guardada/quitada"
+            "description": "Receta guardada/quitada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2347,7 +3280,126 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de recetas guardadas"
+            "description": "Lista de recetas guardadas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recipes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "user_id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "image_url": {
+                            "type": "string",
+                            "format": "uri",
+                            "nullable": true
+                          },
+                          "prep_time_mins": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "difficulty": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "calories": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "is_published": {
+                            "type": "boolean",
+                            "nullable": true
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "nullable": true
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "nullable": true
+                          },
+                          "profiles": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "first_name": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "last_name": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "avatar_url": {
+                                "type": "string",
+                                "format": "uri",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "_count": {
+                            "type": "object",
+                            "properties": {
+                              "saved_recipes": {
+                                "type": "number"
+                              },
+                              "comments": {
+                                "type": "number"
+                              },
+                              "likes": {
+                                "type": "number"
+                              },
+                              "shared_recipes": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "last_page": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
