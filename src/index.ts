@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '@docs/swagger.json';
 dotenv.config();
 
 const app = express();
@@ -9,25 +11,18 @@ const PORT = process.env.PORT || 4000;
 
 // 1. cors config
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin || /^http:\/\/(localhost|127\.0\.0\.1):[0-9]+$/.test(origin)||'localhost') {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS no permitido'));
-    }
-  },
+  origin: '*',
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS','PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With','X-Refresh-Token']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-Refresh-Token']
 }));
 
 app.use(express.json());
 app.use(cookieParser());
 
-// 2. path test
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Run server' });
-});
+// 2. path test and documentation with swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get('/health', (req, res) => { res.json({ status: 'ok', message: 'Run server' }); });
 
 // 4. End point integrations
 import authRouter from 'src/modules/auth/auth.routes';
