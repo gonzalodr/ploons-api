@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticate } from "@middlewares/auth.middleware";
-import { SavedController } from "src/modules/saved/saved.controller";
+import { SavedController } from "@module/saved/saved.controller";
 
 const router = Router();
 const controller = new SavedController();

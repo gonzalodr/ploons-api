@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import { z, ZodError } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 
-import { ProfileService } from "src/modules/profile/profile.service";
+import { ProfileService } from "@module/profile/profile.service";
 import { formatError } from '@utils/zodError.utils';
 import { AppError } from '@utils/appError.utils';
-import { updateProfileSchema } from 'src/modules/profile/schemas/profile.update.schema';
+import { updateProfileSchema } from '@module/profile/schemas/profile.update.schema';
 
 export class ProfileController {
     private profileService: ProfileService;

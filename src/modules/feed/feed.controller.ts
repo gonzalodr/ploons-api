@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { FeedService } from "src/modules/feed/feed.service";
+import { FeedService } from "@module/feed/feed.service";
 import { AppError } from "@utils/appError.utils";
 import { z } from 'zod';
 

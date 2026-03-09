@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { LikeController } from "src/modules/like/like.controller";
+import { LikeController } from "@module/like/like.controller";
 import { authenticate } from "@middlewares/auth.middleware";
 import { authOptional } from "@middlewares/authOptional.middlewares";
 

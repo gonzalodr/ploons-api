@@ -4,9 +4,9 @@ import { StatusCodes } from 'http-status-codes';
 
 import { AppError } from '@utils/appError.utils';
 import { formatError } from '@utils/zodError.utils';
-import { RecipeService } from "src/modules/recipe/recipe.service";
-import { createRecipeSchema } from 'src/modules/recipe/schemas/recipe.create.schema';
-import { updateRecipeSchema } from 'src/modules/recipe/schemas/recipe.update.schema';
+import { RecipeService } from "@module/recipe/recipe.service";
+import { createRecipeSchema } from '@module/recipe/schemas/recipe.create.schema';
+import { updateRecipeSchema } from '@module/recipe/schemas/recipe.update.schema';
 
 export class RecipeController {
     private recipeService: RecipeService;

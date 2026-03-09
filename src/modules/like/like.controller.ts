@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import z from 'zod';
 
-import { LikeService } from "src/modules/like/like.service";
+import { LikeService } from "@module/like/like.service";
 import { AppError } from '@utils/appError.utils';
 
 

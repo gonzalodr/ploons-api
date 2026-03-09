@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 
 import { AppError } from '@utils/appError.utils';
-import { FollowService } from "src/modules/follow/follow.service";
+import { FollowService } from "@module/follow/follow.service";
 
 export class FollowController {
     private followService: FollowService;
