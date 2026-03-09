@@ -88,7 +88,7 @@ export class ProfileController {
             const userId = req.user?.id;
             const profileId = req.params.profileId as string;
             //2. validate uuid
-            if(userId || !z.uuid().safeParse(userId).success){
+            if(userId && !z.uuid().safeParse(userId).success){
                 throw new AppError('Invalid User ID format', StatusCodes.BAD_REQUEST);
             }
             if (!profileId || !z.uuid().safeParse(profileId).success) {

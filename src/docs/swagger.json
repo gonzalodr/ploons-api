@@ -3227,7 +3227,7 @@
         }
       }
     },
-    "/saved/{recipeId}": {
+    "/save/{recipeId}": {
       "post": {
         "tags": [
           "Saved"
@@ -3267,7 +3267,7 @@
         }
       }
     },
-    "/saved/me": {
+    "/save/me": {
       "get": {
         "tags": [
           "Saved"
@@ -3421,7 +3421,81 @@
         ],
         "responses": {
           "200": {
-            "description": "Resultados de búsqueda de recetas"
+            "description": "Resultados de búsqueda de recetas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recipes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "image_url": {
+                            "type": "string"
+                          },
+                          "prep_time_mins": {
+                            "type": "integer"
+                          },
+                          "difficulty": {
+                            "type": "string",
+                            "default": "Easy"
+                          },
+                          "profile_id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "username": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "first_name": {
+                            "type": "string"
+                          },
+                          "last_name": {
+                            "type": "string"
+                          },
+                          "score": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "limit":{
+                          "type":"integer"
+                        },
+                        "last_page": {
+                          "type": "number"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -3443,7 +3517,63 @@
         ],
         "responses": {
           "200": {
-            "description": "Resultados de búsqueda de perfiles"
+            "description": "Resultados de búsqueda de perfiles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "profiles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "username": {
+                            "type": "string"
+                          },
+                          "first_name": {
+                            "type": "string"
+                          },
+                          "last_name": {
+                            "type": "string"
+                          },
+                          "avatar_url": {
+                            "type": "string"
+                          },
+                          "score": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "limit":{
+                          "type":"integer"
+                        },
+                        "last_page": {
+                          "type": "number"
+                        },
+                        "hasMore": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
