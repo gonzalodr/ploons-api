@@ -39,14 +39,11 @@ export class FeedController {
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 10;
             // 2. call service
-            const result = await this.feedService.getTrendingFeed(page, limit,userId);
+            const result = await this.feedService.getTrendingFeed(page, limit, userId);
             // 3. send result
             return res.status(StatusCodes.OK).json(result);
         } catch (error: any) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-                message: "No pudimos cargar las tendencias en este momento",
-                error: error.message
-            });
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
         }
     }
 }

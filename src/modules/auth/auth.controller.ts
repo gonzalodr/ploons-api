@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { toLowerCase, z, ZodError } from 'zod';
+import { z, ZodError } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 
 import { AuthService } from '@module/auth/auth.service';
