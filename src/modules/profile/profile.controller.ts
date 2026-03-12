@@ -48,7 +48,7 @@ export class ProfileController {
             }
 
             // 3. clear and validate empty social media
-            if (typeof bodyData.social_media === 'string') {
+            if (typeof bodyData.social_media === 'string' && bodyData.social_media.length > 0) {
                 bodyData.social_media = JSON.parse(bodyData.social_media);
             }
             if (bodyData.social_media) {
