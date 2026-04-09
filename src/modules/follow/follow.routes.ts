@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { FollowController } from "src/modules/follow/follow.controller";
+import { FollowController } from "@module/follow/follow.controller";
 import { authenticate } from "@middlewares/auth.middleware";
 import { authOptional } from "@middlewares/authOptional.middlewares";
 

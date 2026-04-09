@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import { prisma } from '@config/db.config';
 import { supabase } from '@config/supabase.config';
-import { LoginInput } from 'src/modules/auth/schemas/auth.login.schema';
-import { RegisterInput } from 'src/modules/auth/schemas/auth.register.schema';
+import { LoginInput } from '@module/auth/schemas/auth.login.schema';
+import { RegisterInput } from '@module/auth/schemas/auth.register.schema';
 import { AppError } from '@utils/appError.utils';
 export class AuthService {
   /*-------------------------------------

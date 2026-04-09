@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { toLowerCase, z, ZodError } from 'zod';
+import { z, ZodError } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 
-import { AuthService } from 'src/modules/auth/auth.service';
+import { AuthService } from '@module/auth/auth.service';
 import { formatError } from '@utils/zodError.utils';
 import { AppError } from '@utils/appError.utils';
-import { forgotPasswordSchema, resetPasswordSchema } from 'src/modules/auth/schemas/auth.resetpass.schema';
-import { registerSchema } from 'src/modules/auth/schemas/auth.register.schema';
-import { loginSchema } from 'src/modules/auth/schemas/auth.login.schema';
+import { forgotPasswordSchema, resetPasswordSchema } from '@module/auth/schemas/auth.resetpass.schema';
+import { registerSchema } from '@module/auth/schemas/auth.register.schema';
+import { loginSchema } from '@module/auth/schemas/auth.login.schema';
 
 export class AuthController {
   private authService: AuthService;

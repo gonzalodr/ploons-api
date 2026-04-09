@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '@utils/appError.utils';
-import { SavedService } from "src/modules/saved/saved.service";
+import { SavedService } from "@module/saved/saved.service";
 
 export class SavedController {
     private savedService: SavedService;

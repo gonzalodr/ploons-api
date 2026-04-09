@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import z from 'zod';
 
-import { LikeService } from "src/modules/like/like.service";
+import { LikeService } from "@module/like/like.service";
 import { AppError } from '@utils/appError.utils';
 
 
@@ -46,7 +46,7 @@ export class LikeController {
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 20;
             // 2. validate (user otional)
-            if(userId || !z.uuid().safeParse(userId).success){
+            if(userId && !z.uuid().safeParse(userId).success){
                 throw new AppError('Invalid User ID format', StatusCodes.BAD_REQUEST);
             }
             if (!recipeId || !z.uuid().safeParse(recipeId).success) {

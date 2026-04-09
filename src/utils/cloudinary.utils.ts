@@ -1,4 +1,5 @@
-import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
+import { UploadApiResponse } from 'cloudinary';
+import cloudinary from '@config/cloudinary.config';
 import { AppError } from '@utils/appError.utils';
 import { StatusCodes } from 'http-status-codes';
 

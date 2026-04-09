@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
-import { SearchService } from "src/modules/search/search.service";
+import { SearchService } from "@module/search/search.service";
 import { AppError } from "@utils/appError.utils";
 
 export class SearchController {

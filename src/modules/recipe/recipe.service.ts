@@ -2,8 +2,8 @@ import { StatusCodes } from "http-status-codes";
 import { prisma } from "@config/db.config";
 import { AppError } from "@utils/appError.utils";
 import { CloudinaryService } from "@utils/cloudinary.utils";
-import { UpdateRecipeInput } from "src/modules/recipe/schemas/recipe.update.schema";
-import { CreateRecipeInput } from "src/modules/recipe/schemas/recipe.create.schema";
+import { UpdateRecipeInput } from "@module/recipe/schemas/recipe.update.schema";
+import { CreateRecipeInput } from "@module/recipe/schemas/recipe.create.schema";
 
 
 export class RecipeService {

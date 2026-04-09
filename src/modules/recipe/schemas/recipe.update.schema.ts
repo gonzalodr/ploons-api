@@ -1,5 +1,5 @@
 import z from "zod";
-import { createRecipeSchema, ingredientSchema, stepSchema } from "src/modules/recipe/schemas/recipe.create.schema";
+import { createRecipeSchema, ingredientSchema, stepSchema } from "@module/recipe/schemas/recipe.create.schema";
 
 export const updateRecipeSchema = createRecipeSchema.partial().extend({
     // id to update ingredients
