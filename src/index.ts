@@ -9,8 +9,9 @@ import swaggerDocument from '@docs/swagger.json';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
-
+const ENVIRONMENT = process.env.ENVIRONMENT || 'development';
+const FRONTEND_URL = ENVIRONMENT === 'development' ? 'http://192.168.137.1:3000' : process.env.FRONTEND_URL || '*';
+console.log('FRONTEND_URL:', FRONTEND_URL);
 // 1. cors config
 app.use(cors({
   origin: FRONTEND_URL,
