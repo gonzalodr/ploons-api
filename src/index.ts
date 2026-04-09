@@ -1,13 +1,18 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '@docs/swagger.json';
-dotenv.config();
+import { prisma } from '@config/db.config';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const ENVIRONMENT = process.env.ENVIRONMENT || 'development';
+const FRONTEND_URL = ENVIRONMENT === 'production' ? 'http://192.168.137.1:3000' : process.env.FRONTEND_URL || '*';
+
+if (ENVIRONMENT === 'production' && !FRONTEND_URL) {
+  throw new Error('FRONTEND_URL is required in production');
+}
 
 // 1. cors config
 app.use(cors({
@@ -35,16 +40,27 @@ import savedRouter from 'src/modules/saved/saved.routes';
 import searchRouter from 'src/modules/search/search.routes';
 import feedRouter from 'src/modules/feed/feed.routes';
 // 5. ednpoints
-app.use('/auth',authRouter);
-app.use('/profile',profileRouter);
-app.use('/recipe',recipeRouter);
-app.use('/like',likeRouter);
-app.use('/comment',commentRouter);
-app.use('/follow',followRouter);
-app.use('/save',savedRouter);
-app.use('/search',searchRouter);
-app.use('/feed',feedRouter);
-
-app.listen(PORT, () => {
-  console.log(`🚀 Run server in: http://localhost:${PORT}`);
+app.use('/auth', authRouter);
+app.use('/profile', profileRouter);
+app.use('/recipe', recipeRouter);
+app.use('/like', likeRouter);
+app.use('/comment', commentRouter);
+app.use('/follow', followRouter);
+app.use('/save', savedRouter);
+app.use('/search', searchRouter);
+app.use('/feed', feedRouter);
+//5.5 handler endpoints not found
+app.use('*', (req, res) => {
+  res.status(404).json({ error: `Route ${req.originalUrl} not found` });
+});
+// 6. listen ports
+const server = app.listen(Number(PORT), '0.0.0.0', () => {
+  if (ENVIRONMENT === 'development') {
+    console.log(`🚀 Run server in: http://localhost:${PORT}`);
+  }
+});
+// 7. close server
+process.on('beforeExit', async () => {
+  await prisma.$disconnect();
+  server.close();
 });

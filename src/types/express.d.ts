@@ -1,5 +1,5 @@
 import { User } from '@supabase/supabase-js';
-
+import { Multer } from 'multer';
 declare global {
   namespace Express {
     interface Request {
