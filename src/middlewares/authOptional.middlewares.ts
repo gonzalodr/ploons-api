@@ -1,32 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import { supabase } from '@config/supabase.config';
 
 export async function authOptional(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
 
-  // 1. if dont have token, next, (visited)
+  // 1.validate token and next
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return next();
   }
-  // 2. validate have a toke 
+
+  // 2. get token
   const token = authHeader.split(' ')[1];
-  if (!token) {
+  if (!token || token.trim() === '') {
     return next();
   }
 
   try {
-    // 1. validate session
+    // 3. validate token and inject
     const { data: { user }, error } = await supabase.auth.getUser(token);
-    if (error || !user) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({ error: 'Session expired or invalid token' });
+    if (!error && user) {
+      req.user = user;
+      req.token = token;
     }
-    // 2. inject user, token, refresh token
-    req.user = user;
-    req.token = token;
-    req.refreshToken = req.headers['x-refresh-token'] as string;
     next();
   } catch (err) {
     next();
   }
-};
+}
