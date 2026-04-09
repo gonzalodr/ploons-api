@@ -21,7 +21,7 @@ export class AuthService {
       options: {
         data: {
           first_name: first_name,
-          last_name:last_name
+          last_name: last_name
         },
       },
     });
@@ -102,18 +102,16 @@ export class AuthService {
     };
   }
   // 6. reset password
-  async updatePassword(password: string, token: string, refresh_token?: string) {
+  async updatePassword(password: string, token: string, refresh_token: string) {
 
     const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
       access_token: token,
-      refresh_token: refresh_token ?? token,
+      refresh_token: refresh_token,
     });
 
-    if (sessionError) throw new AppError(sessionError.message, sessionError.status);
+    if (sessionError) throw new AppError(sessionError.message, sessionError.status || StatusCodes.UNAUTHORIZED);
 
-    const { data, error } = await supabase.auth.updateUser({
-      password: password
-    });
+    const { data, error } = await supabase.auth.updateUser({ password: password });
     if (error) {
       throw new AppError(error.message, error.status);
     }
@@ -137,10 +135,10 @@ export class AuthService {
     };
   }
   // 8. logout
-  async logout(token: string, refresh_token?:string) {
-    await supabase.auth.setSession({ 
-      access_token: token, 
-      refresh_token: token??refresh_token
+  async logout(token: string, refresh_token: string) {
+    await supabase.auth.setSession({
+      access_token: token,
+      refresh_token: refresh_token
     });
     const { error } = await supabase.auth.signOut();
     if (error) throw new AppError(error.message, error.status);
