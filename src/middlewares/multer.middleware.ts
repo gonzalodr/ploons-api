@@ -2,11 +2,9 @@ import multer from 'multer';
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-// config storage
 const storage = multer.memoryStorage();
 
-// config base multer
-const multerUpload = multer({ 
+const multerUpload = multer({
   storage,
   limits: {
     fileSize: 5 * 1024 * 1024 // 5MB max.
@@ -21,13 +19,23 @@ const multerUpload = multer({
   }
 });
 
-// middleware unique file
-export const uploadSingle = multerUpload.single('image');
+/**
+* Creates an upload middleware for a specific field
+* @param fieldName - Name of the field in the form (e.g., 'image', 'avatar')
+* @returns Middleware for multiple configured fields
+*/
+export const uploadSingle = (fieldName: string) => multerUpload.single(fieldName);
 
-// middleware multiple file
-export const uploadMultiple = multerUpload.array('images', 5);
+/**
+* Creates a multi-upload middleware for a specific field
+* @param fieldName - Name of the field in the form
+* @param maxCount - Maximum number of files
+* @returns Configured multi-upload middleware
+*/
+export const uploadMultiple = (fieldName: string, maxCount: number = 5) =>
+  multerUpload.array(fieldName, maxCount);
 
-// manual calidations
+// validate formatt
 export const validateImage = (req: Request, res: Response, next: NextFunction) => {
   if (!req.file) return next();
 

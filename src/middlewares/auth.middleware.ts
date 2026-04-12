@@ -7,8 +7,8 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
 
   // 1. validate header
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(StatusCodes.UNAUTHORIZED).json({ 
-      error: 'Missing or invalid authorization header. Use: Bearer <token>' 
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      error: 'Missing or invalid authorization header. Use: Bearer <token>'
     });
   }
 
