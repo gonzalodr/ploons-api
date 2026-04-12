@@ -103,12 +103,13 @@ export class RecipeController {
         try {
             // 1. get data
             const recipeId = req.params.recipeId as string;
+            const userId = req.user?.id;
             // 2. validate
             if (!recipeId || !z.uuid().safeParse(recipeId).success) {
                 throw new AppError('Invalid Recipe ID format', StatusCodes.BAD_REQUEST);
             }
             // 4. call services
-            const result = await this.recipeService.getRecipeById(recipeId);
+            const result = await this.recipeService.getRecipeById(recipeId,userId);
             // 5. send result
             return res.status(StatusCodes.OK).json(result);
         } catch (error: any) {
@@ -153,8 +154,8 @@ export class RecipeController {
         try {
             // 1. get data
             const userId = req.user?.id;
-            const page = parseInt(req.query.page as string) || 1;
-            const limit = parseInt(req.query.limit as string) || 10;
+            const page = Math.max(1, parseInt(req.query.page as string) || 1);
+            const limit = Math.min(50, Math.max(1, parseInt(req.query.limit as string) || 10));
             // 2. validate
             if (!userId || !z.uuid().safeParse(userId).success) {
                 throw new AppError('Invalid User ID format', StatusCodes.BAD_REQUEST);

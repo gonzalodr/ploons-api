@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { authenticate } from "@middlewares/auth.middleware";
 import { RecipeController } from "src/modules/recipe/recipe.controller";
-import { upload } from "@middlewares/multer.middleware";
-
+import { } from "@middlewares/multer.middleware";
+import { uploadSingle, validateImage } from "@middlewares/multer.middleware";
 const router = Router();
 const controller = new RecipeController();
 
@@ -15,8 +15,8 @@ router.get("/:recipeId", controller.getRecipeById.bind(controller));
 router.get("/private/:recipeId", authenticate, controller.getPrivateRecipeById.bind(controller));
 
 // 3. crud
-router.post("/", authenticate, upload.single("image"), controller.createRecipe.bind(controller));
-router.put("/:recipeId", authenticate, upload.single("image"), controller.updateRecipe.bind(controller));
+router.post("/", authenticate, uploadSingle('image'), validateImage, controller.createRecipe.bind(controller));
+router.put("/:recipeId", authenticate, uploadSingle('image'), validateImage, controller.updateRecipe.bind(controller));
 router.delete("/:recipeId", authenticate, controller.deleteRecipe.bind(controller));
 
 export default router;
