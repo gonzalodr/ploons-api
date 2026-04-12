@@ -41,11 +41,13 @@ export class SearchService {
         const total = Number(countResult[0].total);
 
         return {
-            data: profiles,
-            meta: {
+            profiles: profiles,
+            pagination: {
                 total,
                 page,
-                last_page: Math.ceil(total / limit)
+                limit,
+                last_page: Math.ceil(total / limit),
+                hasMore: skip + profiles.length < total
             }
         };
     }
@@ -95,11 +97,13 @@ export class SearchService {
         const total = Number(countResult[0].total);
 
         return {
-            data: recipes,
-            meta: {
+            recipes: recipes,
+            pagination: {
                 total,
                 page,
-                last_page: Math.ceil(total / limit)
+                limit,
+                last_page: Math.ceil(total / limit),
+                hasMore: skip + recipes.length < total
             }
         };
     }

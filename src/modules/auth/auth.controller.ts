@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { z, ZodError } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 
-import { AuthService } from 'src/modules/auth/auth.service';
+import { AuthService } from '@module/auth/auth.service';
 import { formatError } from '@utils/zodError.utils';
 import { AppError } from '@utils/appError.utils';
 import { forgotPasswordSchema, resetPasswordSchema } from 'src/modules/auth/schemas/auth.resetpass.schema';

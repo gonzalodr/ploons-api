@@ -10,19 +10,35 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "typeRoots": [
       "./node_modules/@types",
       "./src/types"
     ],
-    "baseUrl": ".", 
+    "baseUrl": ".",
     "paths": {
-      "@utils/*": ["./src/utils/*"],
-      "@config/*": ["./src/config/*"],
-      "@enums/*": ["./src/enums/*"],
-      "@middlewares/*": ["./src/middlewares/*"],
-      "@types/*": ["./src/types/*"],
-      "@module/*":["./src/module/*"],
-      "@docs/*":["./src/docs/*"]
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@enums/*": [
+        "./src/enums/*"
+      ],
+      "@middlewares/*": [
+        "./src/middlewares/*"
+      ],
+      "@types/*": [
+        "./src/types/*"
+      ],
+      "@module/*": [
+        "./src/modules/*"
+      ],
+      "@docs/*": [
+        "./src/docs/*"
+      ]
     }
   },
   "include": [

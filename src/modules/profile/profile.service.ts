@@ -2,8 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { prisma } from '@config/db.config'
 import { AppError } from '@utils/appError.utils';
 import { CloudinaryService } from '@utils/cloudinary.utils';
-import { UpdateProfileInput } from 'src/modules/profile/schemas/profile.update.schema';
-import { count } from 'node:console';
+import { UpdateProfileInput } from '@module/profile/schemas/profile.update.schema';
 
 export class ProfileService {
     // 1. get my profile

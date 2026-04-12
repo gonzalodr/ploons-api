@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { AuthController } from 'src/modules/auth/auth.controller';
+import { AuthController } from '@module/auth/auth.controller';
 import { authenticate } from '@middlewares/auth.middleware';
 import { validateRefreshToken } from '@middlewares/authRefresh.middleware';
 

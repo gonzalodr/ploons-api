@@ -1,8 +1,19 @@
 import { prisma } from "@config/db.config";
 import { AppError } from "@utils/appError.utils";
 import { StatusCodes } from "http-status-codes";
+import { count } from "node:console";
 
 export class SavedService {
+    private mapRelationship(profile: any, currentUserId?: string) {
+        const iAmFollowing = currentUserId ? profile.followers?.length > 0 : false;
+        const isFollowingMe = currentUserId ? profile.following?.length > 0 : false;
+        return {
+            i_am_following: iAmFollowing,
+            is_following_me: isFollowingMe,
+            is_mutual: iAmFollowing && isFollowingMe,
+            is_me: profile.id === currentUserId
+        };
+    };
     // 1. Toggle Save (save / unsave)
     async toggleSave(userId: string, recipeId: string) {
         // 1. validate recipe
@@ -69,10 +80,36 @@ export class SavedService {
             }),
             prisma.saved_recipes.count({ where: { user_id: userId } })
         ]);
+        // Mapeamos el array 'saved' que ya obtuviste de la transacción
+        const formattedRecipes = saved.map((entry) => {
+            const recipe = entry.recipes;
+            const { profiles, _count, ...data } = recipe;
+            return {
+                saved_at: entry.saved_at,
+                recipe_id: entry.recipe_id,
+                user_id: entry.user_id,
+                recipe: {
+                    ...data,
+                    stats: {
+                        ..._count
+                    },
+                    author: {
+                        ...profiles,
+                        relationship: this.mapRelationship(profiles, userId)
+                    },
+                },
+            };
+        });
 
         return {
-            recipes: saved.map(s => s.recipes),
-            meta: { total, page, last_page: Math.ceil(total / limit) }
+            recipes: formattedRecipes,
+            pagination: {
+                total,
+                page,
+                limit,
+                last_page: Math.ceil(total / limit),
+                hasMore: skip + saved.length
+            }
         };
     }
 }

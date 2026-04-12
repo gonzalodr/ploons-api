@@ -1,5 +1,4 @@
 import { prisma } from "@config/db.config";
-import { forgotPasswordSchema } from "src/modules/auth/schemas/auth.resetpass.schema";
 import { AppError } from "@utils/appError.utils";
 import { StatusCodes } from "http-status-codes";
 

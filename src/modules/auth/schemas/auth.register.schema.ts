@@ -1,5 +1,5 @@
 import { date, z } from 'zod';
-import { loginSchema } from 'src/modules/auth/schemas/auth.login.schema';
+import { loginSchema } from '@module/auth/schemas/auth.login.schema';
 
 export const registerSchema = loginSchema.extend({
     first_name: z

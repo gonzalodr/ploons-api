@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import { z, ZodError } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 
-import { ProfileService } from "src/modules/profile/profile.service";
+import { ProfileService } from "@module/profile/profile.service";
 import { formatError } from '@utils/zodError.utils';
 import { AppError } from '@utils/appError.utils';
-import { updateProfileSchema } from 'src/modules/profile/schemas/profile.update.schema';
+import { updateProfileSchema } from '@module/profile/schemas/profile.update.schema';
 
 export class ProfileController {
     private profileService: ProfileService;
@@ -48,7 +48,7 @@ export class ProfileController {
             }
 
             // 3. clear and validate empty social media
-            if (typeof bodyData.social_media === 'string') {
+            if (typeof bodyData.social_media === 'string' && bodyData.social_media.length > 0) {
                 bodyData.social_media = JSON.parse(bodyData.social_media);
             }
             if (bodyData.social_media) {
@@ -88,7 +88,7 @@ export class ProfileController {
             const userId = req.user?.id;
             const profileId = req.params.profileId as string;
             //2. validate uuid
-            if(userId || !z.uuid().safeParse(userId).success){
+            if(userId && !z.uuid().safeParse(userId).success){
                 throw new AppError('Invalid User ID format', StatusCodes.BAD_REQUEST);
             }
             if (!profileId || !z.uuid().safeParse(profileId).success) {

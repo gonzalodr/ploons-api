@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 
 import { AppError } from '@utils/appError.utils';
-import { CommentService } from "src/modules/comment/comment.service";
+import { CommentService } from "@module/comment/comment.service";
 
 export class CommentController {
     private commentService: CommentService;

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { FeedController } from "src/modules/feed/feed.controller";
+import { FeedController } from "@module/feed/feed.controller";
 import { authenticate } from "@middlewares/auth.middleware";
 import { authOptional } from "@middlewares/authOptional.middlewares";
 

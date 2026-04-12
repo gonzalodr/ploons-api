@@ -4,9 +4,9 @@ import { StatusCodes } from 'http-status-codes';
 
 import { AppError } from '@utils/appError.utils';
 import { formatError } from '@utils/zodError.utils';
-import { RecipeService } from "src/modules/recipe/recipe.service";
-import { createRecipeSchema } from 'src/modules/recipe/schemas/recipe.create.schema';
-import { updateRecipeSchema } from 'src/modules/recipe/schemas/recipe.update.schema';
+import { RecipeService } from "@module/recipe/recipe.service";
+import { createRecipeSchema } from '@module/recipe/schemas/recipe.create.schema';
+import { updateRecipeSchema } from '@module/recipe/schemas/recipe.update.schema';
 
 export class RecipeController {
     private recipeService: RecipeService;
@@ -102,9 +102,13 @@ export class RecipeController {
     async getRecipeById(req: Request, res: Response) {
         try {
             // 1. get data
+            const userId = req.user?.id;
             const recipeId = req.params.recipeId as string;
             const userId = req.user?.id;
             // 2. validate
+            if(userId && !z.uuid().safeParse(userId).success){
+                throw new AppError('Invalid User ID format', StatusCodes.BAD_REQUEST);
+            }
             if (!recipeId || !z.uuid().safeParse(recipeId).success) {
                 throw new AppError('Invalid Recipe ID format', StatusCodes.BAD_REQUEST);
             }

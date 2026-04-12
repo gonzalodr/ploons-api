@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { ProfileController } from 'src/modules/profile/profile.controller';
+import { ProfileController } from '@module/profile/profile.controller';
 import { authenticate } from '@middlewares/auth.middleware';
 import { uploadSingle } from '@middlewares/multer.middleware';
 import { authOptional } from '@middlewares/authOptional.middlewares';

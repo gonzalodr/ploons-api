@@ -1,5 +1,4 @@
 import { prisma } from "@config/db.config";
-import { string } from "zod";
 
 export class FeedService {
     // 1. get feed
