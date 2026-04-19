@@ -1,7 +1,7 @@
 import { prisma } from "@config/db.config";
 import { AppError } from "@utils/appError.utils";
 import { StatusCodes } from "http-status-codes";
-
+import { formatPagination } from "@utils/pagination.utils";
 
 export class FollowService {
 
@@ -43,6 +43,7 @@ export class FollowService {
         });
         return { status: "followed" };
     }
+
     // 3. X user <- followers (Those who follow me?)
     async getFollowers(targetUserId: string, page: number = 1, limit: number = 20, currentUserId?: string) {
         // 1. get skip
@@ -73,35 +74,30 @@ export class FollowService {
             }),
             prisma.follows.count({ where: { following_id: targetUserId } })
         ]);
-        return {
-            users: followers.map(f => {
-                const profile = f.profiles_follows_follower_idToprofiles as any;
-                const iFollowThem = currentUserId ? profile.followers?.length > 0 : false;
-                const theyFollowMe = currentUserId ? profile.following?.length > 0 : false;
 
-                return {
-                    id: profile.id,
-                    username: profile.username,
-                    first_name: profile.first_name,
-                    last_name: profile.last_name,
-                    avatar_url: profile.avatar_url,
-                    relationship: {
-                        i_am_following: iFollowThem,
-                        is_following_me: theyFollowMe,
-                        is_mutual: iFollowThem && theyFollowMe,
-                        is_me: profile.id === currentUserId
-                    }
-                };
-            }),
-            pagination: {
-                total,
-                page,
-                limit,
-                last_page: Math.ceil(total / limit),
-                hasMore: skip + followers.length < total
-            }
-        };
+        const data = followers.map(f => {
+            const profile = f.profiles_follows_follower_idToprofiles as any;
+            const iFollowThem = currentUserId ? profile.followers?.length > 0 : false;
+            const theyFollowMe = currentUserId ? profile.following?.length > 0 : false;
+
+            return {
+                id: profile.id,
+                username: profile.username,
+                first_name: profile.first_name,
+                last_name: profile.last_name,
+                avatar_url: profile.avatar_url,
+                relationship: {
+                    i_am_following: iFollowThem,
+                    is_following_me: theyFollowMe,
+                    is_mutual: iFollowThem && theyFollowMe,
+                    is_me: profile.id === currentUserId
+                }
+            };
+        });
+
+        return formatPagination(data, page, limit, total);
     }
+
     // 4. X user -> following (Who do I follow?)
     async getFollowing(targetUserId: string, page: number = 1, limit: number = 20, currentUserId?: string) {
         // 1. get skip
@@ -131,33 +127,26 @@ export class FollowService {
             prisma.follows.count({ where: { follower_id: targetUserId } })
         ]);
 
-        return {
-            users: following.map(f => {
-                const profile = f.profiles_follows_following_idToprofiles as any;
-                const iFollowThem = currentUserId ? profile.followers?.length > 0 : false;
-                const theyFollowMe = currentUserId ? profile.following?.length > 0 : false;
+        const data = following.map(f => {
+            const profile = f.profiles_follows_following_idToprofiles as any;
+            const iFollowThem = currentUserId ? profile.followers?.length > 0 : false;
+            const theyFollowMe = currentUserId ? profile.following?.length > 0 : false;
 
-                return {
-                    id: profile.id,
-                    username: profile.username,
-                    first_name: profile.first_name,
-                    last_name: profile.last_name,
-                    avatar_url: profile.avatar_url,
-                    relationship: {
-                        i_am_following: iFollowThem,
-                        is_following_me: theyFollowMe,
-                        is_mutual: iFollowThem && theyFollowMe,
-                        is_me: profile.id === currentUserId
-                    }
-                };
-            }),
-            pagination: {
-                total,
-                page,
-                limit,
-                last_page: Math.ceil(total / limit),
-                hasMore: skip + following.length < total
-            }
-        };
+            return {
+                id: profile.id,
+                username: profile.username,
+                first_name: profile.first_name,
+                last_name: profile.last_name,
+                avatar_url: profile.avatar_url,
+                relationship: {
+                    i_am_following: iFollowThem,
+                    is_following_me: theyFollowMe,
+                    is_mutual: iFollowThem && theyFollowMe,
+                    is_me: profile.id === currentUserId
+                }
+            };
+        });
+
+        return formatPagination(data, page, limit, total);
     }
-};
+}

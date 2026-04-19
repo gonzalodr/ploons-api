@@ -1,4 +1,5 @@
 import { prisma } from "@config/db.config";
+import { formatPagination } from "@utils/pagination.utils";
 
 export class FeedService {
     // 1. get feed
@@ -12,6 +13,7 @@ export class FeedService {
         });
 
         const followingIds = following.map(f => f.following_id);
+        
         // 2. validate 
         if (followingIds.length === 0) {
             return {
@@ -24,8 +26,8 @@ export class FeedService {
             };
         }
 
-
         // 3. get feed
+        // Use Prisma's parameterization for safety
         const feedItems: any[] = await prisma.$queryRaw`
                 (
                     SELECT 
@@ -40,27 +42,23 @@ export class FeedService {
                         r.created_at as date,
                         r.updated_at as date_edit,
                         
-                        -- profile share == profile post
-
                         p.id as sharer_id,
                         p.username as sharer_username,
                         p.first_name as share_first_name,
                         p.last_name as share_last_name,
                         p.avatar_url as sharer_avatar,
-                        -- 
+                        
                         p.id as author_id,
                         p.username as author_username,
                         p.first_name as author_first_name,
                         p.last_name as author_last_name,
                         p.avatar_url as author_url,
 
-                        -- my reactions exist
                         EXISTS(SELECT 1 FROM public.likes WHERE recipe_id = r.id AND user_id = ${userId}::uuid) as is_liked,
                         EXISTS(SELECT 1 FROM public.comments WHERE recipe_id = r.id AND user_id = ${userId}::uuid) as is_commented,
                         EXISTS(SELECT 1 FROM public.shared_recipes WHERE recipe_id = r.id AND user_id = ${userId}::uuid) as is_shared,
                         EXISTS(SELECT 1 FROM public.saved_recipes WHERE recipe_id = r.id AND user_id = ${userId}::uuid) as is_saved,
                         
-                        -- count likes, comments, shares, saves
                         (SELECT COUNT(*)::INTEGER FROM public.likes WHERE recipe_id = r.id) as likes_count,
                         (SELECT COUNT(*)::INTEGER FROM public.comments WHERE recipe_id = r.id) as comments_count,
                         (SELECT COUNT(*)::INTEGER FROM public.shared_recipes WHERE recipe_id = r.id) as shares_count,
@@ -68,7 +66,7 @@ export class FeedService {
 
                     FROM public.recipes r
                     JOIN public.profiles p ON r.user_id = p.id
-                    WHERE r.user_id IN (${followingIds.join(',')}) 
+                    WHERE r.user_id = ANY(${followingIds}::uuid[]) 
                     AND r.is_published = true
                 )
                 UNION ALL
@@ -85,29 +83,23 @@ export class FeedService {
                         r.created_at as date,
                         r.updated_at as date_edit,
 
-                        -- profile share
-
                         p_sharer.id as sharer_id,
                         p_sharer.username as sharer_username,
                         p_sharer.first_name as share_first_name,
                         p_sharer.last_name as share_last_name,
                         p_sharer.avatar_url as sharer_avatar,
 
-                        -- profile post
-
                         p_author.id as author_id,
-                        p_author.username as author_username
+                        p_author.username as author_username,
                         p_author.first_name as author_first_name,
                         p_author.last_name as author_last_name,
                         p_author.avatar_url as author_url,
 
-                        -- my reactions exist
                         EXISTS(SELECT 1 FROM public.likes WHERE recipe_id = r.id AND user_id = ${userId}::uuid) as is_liked,
                         EXISTS(SELECT 1 FROM public.comments WHERE recipe_id = r.id AND user_id = ${userId}::uuid) as is_commented,
                         EXISTS(SELECT 1 FROM public.shared_recipes WHERE recipe_id = r.id AND user_id = ${userId}::uuid) as is_shared,
                         EXISTS(SELECT 1 FROM public.saved_recipes WHERE recipe_id = r.id AND user_id = ${userId}::uuid) as is_saved,
 
-                        -- counts
                         (SELECT COUNT(*)::INTEGER FROM public.likes WHERE recipe_id = r.id) as likes_count,
                         (SELECT COUNT(*)::INTEGER FROM public.comments WHERE recipe_id = r.id) as comments_count,
                         (SELECT COUNT(*)::INTEGER FROM public.shared_recipes WHERE recipe_id = r.id) as shares_count,
@@ -117,33 +109,21 @@ export class FeedService {
                     JOIN public.recipes r ON s.recipe_id = r.id
                     JOIN public.profiles p_sharer ON s.user_id = p_sharer.id
                     JOIN public.profiles p_author ON r.user_id = p_author.id
-                    WHERE s.user_id IN (${followingIds.join(',')})
+                    WHERE s.user_id = ANY(${followingIds}::uuid[])
                     AND r.is_published = true
                 )
                 ORDER BY activity_date DESC
                 LIMIT ${limit + 1} OFFSET ${skip}
             `;
 
-        // 3. infinite scroll logic
-        const hasMore = feedItems.length > limit;
-        const data = hasMore ? feedItems.slice(0, limit) : feedItems;
-
-        return {
-            data,
-            pagination: {
-                page,
-                limit,
-                hasMore
-            }
-        };
+        return formatPagination(feedItems, page, limit);
     }
+
     // 2. get trendings
-    async getTrendingFeed(page: number = 1, limit: number = 10, userId?:string) {
-        // 1. get data
+    async getTrendingFeed(page: number = 1, limit: number = 10, userId?: string) {
         const skip = (page - 1) * limit;
         const timeframe = '48 hours';
-        const currentUserId = userId || null;
-        // 2. trending
+        
         const trendingRecipes: any[] = await prisma.$queryRaw`
             SELECT 
                 r.id as activity_id,
@@ -157,7 +137,6 @@ export class FeedService {
                 r.created_at as date,
                 r.updated_at as date_edit,
 
-                -- Atributos de usuario unificados
                 p.id as sharer_id,
                 p.username as sharer_username,
                 p.first_name as share_first_name,
@@ -170,18 +149,16 @@ export class FeedService {
                 p.last_name as author_last_name,
                 p.avatar_url as author_url,
                 
-                -- get user
-                EXISTS(SELECT 1 FROM public.likes WHERE recipe_id = r.id AND user_id = ${userId??null}::uuid) as is_liked,
-                EXISTS(SELECT 1 FROM public.comments WHERE recipe_id = r.id AND user_id = ${userId??null}::uuid) as is_commented,
-                EXISTS(SELECT 1 FROM public.shared_recipes WHERE recipe_id = r.id AND user_id = ${userId??null}::uuid) as is_shared,
-                EXISTS(SELECT 1 FROM public.saved_recipes WHERE recipe_id = r.id AND user_id = ${userId??null}::uuid) as is_saved,
+                EXISTS(SELECT 1 FROM public.likes WHERE recipe_id = r.id AND user_id = ${userId ?? null}::uuid) as is_liked,
+                EXISTS(SELECT 1 FROM public.comments WHERE recipe_id = r.id AND user_id = ${userId ?? null}::uuid) as is_commented,
+                EXISTS(SELECT 1 FROM public.shared_recipes WHERE recipe_id = r.id AND user_id = ${userId ?? null}::uuid) as is_shared,
+                EXISTS(SELECT 1 FROM public.saved_recipes WHERE recipe_id = r.id AND user_id = ${userId ?? null}::uuid) as is_saved,
                 
                 (SELECT COUNT(*)::INTEGER FROM public.likes WHERE recipe_id = r.id) as likes_count,
                 (SELECT COUNT(*)::INTEGER FROM public.comments WHERE recipe_id = r.id) as comments_count,
                 (SELECT COUNT(*)::INTEGER FROM public.shared_recipes WHERE recipe_id = r.id) as shares_count,
                 (SELECT COUNT(*)::INTEGER FROM public.saved_recipes WHERE recipe_id = r.id) as saves_count,
 
-                -- calculate score
                 (
                     (
                         (SELECT COUNT(*) FROM public.likes l WHERE l.recipe_id = r.id AND l.created_at > (NOW() - (${timeframe})::interval)) * 1 +
@@ -197,16 +174,6 @@ export class FeedService {
             LIMIT ${limit + 1} OFFSET ${skip}
         `;
 
-        const hasMore = trendingRecipes.length > limit;
-        const data = hasMore ? trendingRecipes.slice(0, limit) : trendingRecipes;
-
-        return {
-            data,
-            pagination: {
-                page,
-                limit,
-                hasMore
-            }
-        };
+        return formatPagination(trendingRecipes, page, limit);
     }
 }

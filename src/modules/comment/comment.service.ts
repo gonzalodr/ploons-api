@@ -1,6 +1,7 @@
 import { prisma } from "@config/db.config";
 import { AppError } from "@utils/appError.utils";
 import { StatusCodes } from "http-status-codes";
+import { formatPagination } from "@utils/pagination.utils";
 
 
 export class CommentService {
@@ -173,16 +174,7 @@ export class CommentService {
             }
         }));
 
-        return {
-            data: data,
-            pagination: {
-                total,
-                page,
-                limit,
-                last_page: Math.ceil(total / limit),
-                hasMore: skip + data.length < total
-            }
-        };
+        return formatPagination(data, page, limit, total);
     }
     // 4. get all parent comment (paginado)
     async getRecipeParentComments(recipeId: string, page: number = 1, limit: number = 20, userId?: string) {
@@ -233,16 +225,7 @@ export class CommentService {
             }
         }));
 
-        return {
-            data: data,
-            pagination: {
-                total,
-                page,
-                limit,
-                last_page: Math.ceil(total / limit),
-                hasMore: skip + data.length < total
-            }
-        };
+        return formatPagination(data, page, limit, total);
     }
     // 5. delete only my commnents or commnets in my post
     async deleteComment(userId: string, commentId: string) {

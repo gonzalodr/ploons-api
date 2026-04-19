@@ -1,8 +1,9 @@
 import { prisma } from "@config/db.config";
 import { AppError } from "@utils/appError.utils";
 import { StatusCodes } from "http-status-codes";
+import { formatPagination } from "@utils/pagination.utils";
 
-export class SharedService {
+export class ShareService {
     // 1. shared
     async registerShare(userId: string, recipeId: string, comment?: string) {
         // 1. validate shared
@@ -32,6 +33,7 @@ export class SharedService {
             }
         });
     }
+
     // 2. get shareds
     async getMySharedRecipes(userId: string, page: number = 1, limit: number = 10) {
         const skip = (page - 1) * limit;
@@ -61,9 +63,6 @@ export class SharedService {
             prisma.shared_recipes.count({ where: { user_id: userId } })
         ]);
 
-        return {
-            shared_items: shared,
-            meta: { total, page, last_page: Math.ceil(total / limit) }
-        };
+        return formatPagination(shared, page, limit, total);
     }
 }
