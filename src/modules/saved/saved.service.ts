@@ -1,7 +1,7 @@
 import { prisma } from "@config/db.config";
 import { AppError } from "@utils/appError.utils";
 import { StatusCodes } from "http-status-codes";
-import { count } from "node:console";
+import { formatPagination } from "@utils/pagination.utils";
 
 export class SavedService {
     private mapRelationship(profile: any, currentUserId?: string) {
@@ -14,6 +14,7 @@ export class SavedService {
             is_me: profile.id === currentUserId
         };
     };
+
     // 1. Toggle Save (save / unsave)
     async toggleSave(userId: string, recipeId: string) {
         // 1. validate recipe
@@ -45,6 +46,7 @@ export class SavedService {
         });
         return { status: "saved" };
     }
+
     // 2. get my save recipes
     async getMySavedRecipes(userId: string, page: number = 1, limit: number = 10) {
         // 1. get skip
@@ -80,8 +82,8 @@ export class SavedService {
             }),
             prisma.saved_recipes.count({ where: { user_id: userId } })
         ]);
-        // Mapeamos el array 'saved' que ya obtuviste de la transacción
-        const formattedRecipes = saved.map((entry) => {
+
+        const data = saved.map((entry) => {
             const recipe = entry.recipes;
             const { profiles, _count, ...data } = recipe;
             return {
@@ -101,15 +103,6 @@ export class SavedService {
             };
         });
 
-        return {
-            recipes: formattedRecipes,
-            pagination: {
-                total,
-                page,
-                limit,
-                last_page: Math.ceil(total / limit),
-                hasMore: skip + saved.length
-            }
-        };
+        return formatPagination(data, page, limit, total);
     }
 }

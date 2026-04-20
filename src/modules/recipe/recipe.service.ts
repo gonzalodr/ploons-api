@@ -4,6 +4,7 @@ import { AppError } from "@utils/appError.utils";
 import { ImageManagerService } from "@utils/imageManager.utils";
 import { UpdateRecipeInput } from "src/modules/recipe/schemas/recipe.update.schema";
 import { CreateRecipeInput } from "src/modules/recipe/schemas/recipe.create.schema";
+import { formatPagination } from "@utils/pagination.utils";
 
 export class RecipeService {
     // 1. create recipe
@@ -297,15 +298,6 @@ export class RecipeService {
             };
         });
 
-        return {
-            data,
-            pagination: {
-                total,
-                page,
-                limit,
-                last_page: Math.ceil(total / limit),
-                hasMore: skip + recipes.length < total
-            }
-        };
+        return formatPagination(data, page, limit, total);
     }
 }

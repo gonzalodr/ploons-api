@@ -3,6 +3,7 @@ import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
 import { SearchService } from "@module/search/search.service";
 import { AppError } from "@utils/appError.utils";
+import { catchAsync } from "@utils/catchAsync.utils";
 
 export class SearchController {
     private searchService: SearchService;
@@ -11,37 +12,25 @@ export class SearchController {
         this.searchService = new SearchService();
     }
     // 1. search recipes
-    async searchRecipe(req: Request, res: Response) {
-        try {
-            // 1. validate query
-            const { q, page, limit } = this.validateQueryParams(req.query);
-            // 2. call services
-            const result = await this.searchService.searchRecipes(q, page, limit);
-            // 3. send result
-            return res.status(StatusCodes.OK).json(result);
-        } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ message: error.message });
-            }
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
-        }
-    }
+    searchRecipe = catchAsync(async (req: Request, res: Response) => {
+        // 1. validate query
+        const { q, page, limit } = this.validateQueryParams(req.query);
+        // 2. call services
+        const result = await this.searchService.searchRecipes(q, page, limit);
+        // 3. send result
+        return res.status(StatusCodes.OK).json(result);
+    });
+
     // 2. search profile
-    async searchProfile(req: Request, res: Response) {
-        try {
-            // 1. validate query
-            const { q, page, limit } = this.validateQueryParams(req.query);
-            // 2. call services
-            const results = await this.searchService.searchProfiles(q, page, limit);
-            // 3. send data
-            return res.status(StatusCodes.OK).json(results);
-        } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ message: error.message });
-            }
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
-        }
-    }
+    searchProfile = catchAsync(async (req: Request, res: Response) => {
+        // 1. validate query
+        const { q, page, limit } = this.validateQueryParams(req.query);
+        // 2. call services
+        const results = await this.searchService.searchProfiles(q, page, limit);
+        // 3. send data
+        return res.status(StatusCodes.OK).json(results);
+    });
+
     // 3. validate querys
     private validateQueryParams(query: any) {
         const querySchema = z.object({
@@ -53,10 +42,9 @@ export class SearchController {
         const result = querySchema.safeParse(query);
 
         if (!result.success) {
-            throw new AppError(result.error.message, StatusCodes.BAD_REQUEST);
+            throw new AppError(result.error.issues[0].message, StatusCodes.BAD_REQUEST);
         }
 
         return result.data;
     }
-
-}
+}

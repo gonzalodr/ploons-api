@@ -1,7 +1,7 @@
 import { prisma } from "@config/db.config";
 import { AppError } from "@utils/appError.utils";
 import { StatusCodes } from "http-status-codes";
-
+import { formatPagination } from "@utils/pagination.utils";
 
 export class LikeService {
     // 1. like/dislike recipe
@@ -32,6 +32,7 @@ export class LikeService {
         const count = await prisma.likes.count({ where: { recipe_id: recipeId } });
         return { status, total_likes: count };
     }
+
     // 2. get list like
     async getRecipeLikes(recipeId: string, page: number = 1, limit: number = 30, userId?: string) {
         // 1. get skip
@@ -87,17 +88,9 @@ export class LikeService {
             };
         });
 
-        return {
-            users: data,
-            pagination: {
-                total,
-                page,
-                limit,
-                last_page: Math.ceil(total / limit),
-                hasMore: skip + likes.length < total
-            }
-        };
+        return formatPagination(data, page, limit, total);
     }
+
     // 3. check my like
     async checkUserLike(userId: string, recipeId: string) {
         // 1. get my like

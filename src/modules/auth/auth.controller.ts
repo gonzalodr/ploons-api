@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { z, ZodError } from 'zod';
+import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 
 import { AuthService } from '@module/auth/auth.service';
-import { formatError } from '@utils/zodError.utils';
 import { AppError } from '@utils/appError.utils';
 import { forgotPasswordSchema, resetPasswordSchema } from 'src/modules/auth/schemas/auth.resetpass.schema';
 import { registerSchema } from 'src/modules/auth/schemas/auth.register.schema';
 import { loginSchema } from 'src/modules/auth/schemas/auth.login.schema';
 import { verifyOtpSchema } from './schemas/auth.verify.schema';
+import { catchAsync } from '@utils/catchAsync.utils';
 
 export class AuthController {
   private authService: AuthService;
@@ -16,125 +16,95 @@ export class AuthController {
   constructor() {
     this.authService = new AuthService();
   }
+
   /*-------------------------------------
    *      REGISTER PROCESS
    *-------------------------------------*/
   // 1. register
-  async register(req: Request, res: Response) {
-    try {
-      // 1. zod validate
-      const validateData = registerSchema.parse(req.body);
-      // 2. call auth services
-      const result = await this.authService.register(validateData);
-      // 3. response
-      return res.status(StatusCodes.CREATED).json(result);
-    } catch (error: any) {
-      return this.handleError(res, error);
-    }
-  }
+  register = catchAsync(async (req: Request, res: Response) => {
+    // 1. zod validate
+    const validateData = registerSchema.parse(req.body);
+    // 2. call auth services
+    const result = await this.authService.register(validateData);
+    // 3. response
+    return res.status(StatusCodes.CREATED).json(result);
+  });
+
   // 2. validate registration otp
-  async verifyRegister(req: Request, res: Response) {
-    try {
-      const { email, token } = verifyOtpSchema.parse(req.body);
-      const result = await this.authService.verifyRegistration(email, token);
-      return res.status(StatusCodes.OK).json(result);
-    } catch (error: any) {
-      return this.handleError(res, error);
-    }
-  }
+  verifyRegister = catchAsync(async (req: Request, res: Response) => {
+    const { email, token } = verifyOtpSchema.parse(req.body);
+    const result = await this.authService.verifyRegistration(email, token);
+    return res.status(StatusCodes.OK).json(result);
+  });
+
   // 3. login
-  async login(req: Request, res: Response) {
-    try {
-      // 1. zod validation
-      const validatedData = loginSchema.parse(req.body);
-      // 2. call auth services
-      const result = await this.authService.login(validatedData);
-      // 3. response
-      return res.status(StatusCodes.OK).json(result);
-    } catch (error: any) {
-      return this.handleError(res, error);
-    }
-  };
+  login = catchAsync(async (req: Request, res: Response) => {
+    // 1. zod validation
+    const validatedData = loginSchema.parse(req.body);
+    // 2. call auth services
+    const result = await this.authService.login(validatedData);
+    // 3. response
+    return res.status(StatusCodes.OK).json(result);
+  });
+
   /*-------------------------------------
    *      RESET PASSWORD PROCESS
    *-------------------------------------*/
   // 4. send email to reset password Code
-  async forgotPassword(req: Request, res: Response) {
-    try {
-      const { email } = forgotPasswordSchema.parse(req.body);
-      const result = await this.authService.sendPasswordResetEmail(email);
-      return res.status(StatusCodes.OK).json(result);
-    } catch (error: any) {
-      return this.handleError(res, error);
-    }
-  }
+  forgotPassword = catchAsync(async (req: Request, res: Response) => {
+    const { email } = forgotPasswordSchema.parse(req.body);
+    const result = await this.authService.sendPasswordResetEmail(email);
+    return res.status(StatusCodes.OK).json(result);
+  });
+
   // 5. verify opt
-  async verifyResetOtp(req: Request, res: Response) {
-    try {
-      // 1. get data
-      const { email, token } = verifyOtpSchema.parse(req.body);;
-      // 2. call service
-      const result = await this.authService.verifyResetPasswordOtp(email, token);
-      // 3. send result
-      return res.status(StatusCodes.OK).json(result);
-    } catch (error: any) {
-      return this.handleError(res, error);
-    }
-  }
+  verifyResetOtp = catchAsync(async (req: Request, res: Response) => {
+    // 1. get data
+    const { email, token } = verifyOtpSchema.parse(req.body);
+    // 2. call service
+    const result = await this.authService.verifyResetPasswordOtp(email, token);
+    // 3. send result
+    return res.status(StatusCodes.OK).json(result);
+  });
+
   // 6. reset password
-  async resetPassword(req: Request, res: Response) {
-    try {
-      const { password } = resetPasswordSchema.parse(req.body);
-      const token = req.token as string;
-      const refresh_token = req.refreshToken as string;
-      if (!token || !refresh_token) {
-        throw new AppError('Access token and refresh token required', StatusCodes.UNAUTHORIZED);
-      }
-      await this.authService.updatePassword(password, token, refresh_token);
-      return res.status(StatusCodes.OK).json({ message: "Contraseña actualizada correctamente" });
-    } catch (error: any) {
-      this.handleError(res, error);
+  resetPassword = catchAsync(async (req: Request, res: Response) => {
+    const { password } = resetPasswordSchema.parse(req.body);
+    const token = req.token as string;
+    const refresh_token = req.refreshToken as string;
+
+    if (!token || !refresh_token) {
+      throw new AppError('Access token and refresh token required', StatusCodes.UNAUTHORIZED);
     }
-  }
+
+    await this.authService.updatePassword(password, token, refresh_token);
+    return res.status(StatusCodes.OK).json({ message: "Contraseña actualizada correctamente" });
+  });
+
   // 7. refresh token
-  async refresh(req: Request, res: Response) {
-    try {
-      // 1. get data
-      const refreshToken = req.refreshToken as string;
-      // 2. validate data
-      if (!refreshToken || !z.string().safeParse(refreshToken).success) {
-        throw new AppError('Refresh token is required', StatusCodes.BAD_REQUEST);
-      }
-      // 3. call service
-      const result = await this.authService.refreshToken(refreshToken);
-      // 4. send result
-      return res.status(StatusCodes.OK).json(result);
-    } catch (error) {
-      this.handleError(res, error);
+  refresh = catchAsync(async (req: Request, res: Response) => {
+    // 1. get data
+    const refreshToken = req.refreshToken as string;
+    // 2. validate data
+    if (!refreshToken || !z.string().safeParse(refreshToken).success) {
+      throw new AppError('Refresh token is required', StatusCodes.BAD_REQUEST);
     }
-  }
+    // 3. call service
+    const result = await this.authService.refreshToken(refreshToken);
+    // 4. send result
+    return res.status(StatusCodes.OK).json(result);
+  });
+
   // 8. logout
-  async logout(req: Request, res: Response) {
-    try {
-      const token = req.token as string;
-      const refreshToken = req.refreshToken as string;
-      if (!token || !refreshToken) {
-        throw new AppError('Access token and refresh token required', StatusCodes.UNAUTHORIZED);
-      }
-      const result = await this.authService.logout(token, refreshToken);
-      return res.status(StatusCodes.OK).json(result);
-    } catch (error: any) {
-      this.handleError(res, error);
+  logout = catchAsync(async (req: Request, res: Response) => {
+    const token = req.token as string;
+    const refreshToken = req.refreshToken as string;
+
+    if (!token || !refreshToken) {
+      throw new AppError('Access token and refresh token required', StatusCodes.UNAUTHORIZED);
     }
-  }
-  // handle errors
-  private handleError(res: Response, error: any) {
-    if (error instanceof ZodError) {
-      return res.status(StatusCodes.BAD_REQUEST).json(formatError(error));
-    }
-    if (error instanceof AppError) {
-      return res.status(error.statusCode).json({ message: error.message });
-    }
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
-  }
-};
+
+    const result = await this.authService.logout(token, refreshToken);
+    return res.status(StatusCodes.OK).json(result);
+  });
+}
