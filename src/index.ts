@@ -12,6 +12,7 @@ import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
 import { prisma } from '@config/db.config';
 import { errorHandler } from '@middlewares/error.middleware';
+import { initSocket } from '@sockets/index';
 
 const PORT = process.env.PORT || 4000;
 const ENVIRONMENT = process.env.ENVIRONMENT || 'development';
@@ -34,14 +35,14 @@ if (ENVIRONMENT === 'development') {
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
   message: { error: 'Too many requests from this IP, please try again after 15 minutes' }
 });
 
 // Apply rate limiter to all requests except docs
-app.use('/auth', limiter); // Stricter for auth?? No, let's apply globally but maybe different for search.
+app.use('/auth', limiter); // Stricter for auth??
 app.use(limiter);
 
 // 1. cors config
@@ -69,6 +70,7 @@ import followRouter from '@module/follow/follow.routes';
 import savedRouter from '@module/saved/saved.routes';
 import searchRouter from '@module/search/search.routes';
 import feedRouter from '@module/feed/feed.routes';
+import chatRouter from '@module/chat/chat.routes';
 import shareRouter from '@module/share/share.routes';
 // 5. ednpoints
 app.use('/auth', authRouter);
@@ -81,6 +83,7 @@ app.use('/save', savedRouter);
 app.use('/search', searchRouter);
 app.use('/feed', feedRouter);
 app.use('/share', shareRouter);
+app.use('/chat', chatRouter);
 //5.5 handler endpoints not found
 app.use((req, res) => {
   res.status(404).json({ error: `Route \`${req.originalUrl}\` not found` });
@@ -88,12 +91,18 @@ app.use((req, res) => {
 
 // 5.6 Global error handler (MUST BE AFTER ROUTES)
 app.use(errorHandler);
+
+
 // 6. listen ports
 const server = app.listen(Number(PORT), '0.0.0.0', () => {
   if (ENVIRONMENT === 'development') {
     console.log(`🚀 Run server in: http://localhost:${PORT}`);
   }
 });
+
+// 6.5 Initialize Sockets
+initSocket(server);
+
 // 7. close server
 process.on('beforeExit', async () => {
   await prisma.$disconnect();

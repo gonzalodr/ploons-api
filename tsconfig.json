@@ -38,6 +38,9 @@
       ],
       "@docs/*": [
         "./src/docs/*"
+      ],
+      "@sockets/*": [
+        "./src/sockets/*"
       ]
     }
   },

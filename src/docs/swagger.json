@@ -2493,9 +2493,9 @@
                   "difficulty": {
                     "type": "string",
                     "enum": [
-                      "Fácil",
-                      "Media",
-                      "Difícil"
+                      "Easy",
+                      "Medium",
+                      "Hard"
                     ]
                   },
                   "calories": {

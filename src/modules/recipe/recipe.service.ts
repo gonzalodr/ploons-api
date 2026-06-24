@@ -240,41 +240,39 @@ export class RecipeService {
         const skip = (page - 1) * limit;
 
         // Usar Promise.all en lugar de transaction (más eficiente)
-        const [recipes, total] = await Promise.all([
-            prisma.recipes.findMany({
-                where: { user_id: userId },
-                take: limit,
-                skip: skip,
-                orderBy: { created_at: 'desc' },
-                select: {
-                    id: true,
-                    image_url: true,
-                    title: true,
-                    description: true,
-                    is_published: true,
-                    created_at: true,
-                    updated_at: true,
-                    profiles: {
-                        select: {
-                            id: true,
-                            username: true,
-                            first_name: true,
-                            last_name: true,
-                            avatar_url: true
-                        }
-                    },
-                    _count: {
-                        select: {
-                            likes: true,
-                            comments: true,
-                            shared_recipes: true,
-                            saved_recipes: true,
-                        }
+        const recipes = await prisma.recipes.findMany({
+            where: { user_id: userId },
+            take: limit,
+            skip: skip,
+            orderBy: { created_at: 'desc' },
+            select: {
+                id: true,
+                image_url: true,
+                title: true,
+                description: true,
+                is_published: true,
+                created_at: true,
+                updated_at: true,
+                profiles: {
+                    select: {
+                        id: true,
+                        username: true,
+                        first_name: true,
+                        last_name: true,
+                        avatar_url: true
+                    }
+                },
+                _count: {
+                    select: {
+                        likes: true,
+                        comments: true,
+                        shared_recipes: true,
+                        saved_recipes: true,
                     }
                 }
-            }),
-            prisma.recipes.count({ where: { user_id: userId } })
-        ]);
+            }
+        });
+        const total = await prisma.recipes.count({ where: { user_id: userId } });
 
         const data = recipes.map(recipe => {
             const { _count, profiles, ...recipeData } = recipe;
