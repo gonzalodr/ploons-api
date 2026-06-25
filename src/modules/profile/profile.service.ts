@@ -39,7 +39,7 @@ export class ProfileService {
     }
 
     // 2. update my profile
-    async updateMyProfil(userId: string, data: UpdateProfileInput, file?: Express.Multer.File) {
+    async updateMyProfile(userId: string, data: UpdateProfileInput, file?: Express.Multer.File) {
         //1. validate profile
         const validateProfile = await this.getMyProfile(userId);
         let avatar_url = validateProfile.avatar_url;
@@ -101,8 +101,9 @@ export class ProfileService {
             throw new AppError('User profile not found', StatusCodes.NOT_FOUND);
         }
         // Logic to determine relationship status
-        const iAmFollowing = userId ? (profile as any).following?.length > 0 : false;
-        const isFollowingMe = userId ? (profile as any).followers?.length > 0 : false;
+        const p = profile as any;
+        const iAmFollowing = userId ? p.follows_follows_following_idToprofiles?.length > 0 : false;
+        const isFollowingMe = userId ? p.follows_follows_follower_idToprofiles?.length > 0 : false;
 
         return {
             id: profile.id,

@@ -59,7 +59,7 @@ export class ProfileController {
         //4. parse and validate data
         const validatedData = updateProfileSchema.parse(bodyData);
         //5. call profile services
-        const result = await this.profileService.updateMyProfil(userId, validatedData, file);
+        const result = await this.profileService.updateMyProfile(userId, validatedData, file);
         //6. send result
         return res.status(StatusCodes.OK).json(result);
     });

@@ -41,8 +41,7 @@ const limiter = rateLimit({
   message: { error: 'Too many requests from this IP, please try again after 15 minutes' }
 });
 
-// Apply rate limiter to all requests except docs
-app.use('/auth', limiter); // Stricter for auth??
+// Apply rate limiter globally
 app.use(limiter);
 
 // 1. cors config

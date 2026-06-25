@@ -2,7 +2,8 @@ import { z } from 'zod';
 
 export const loginSchema = z.object({
   email: z
-    .email('Invalid email'),
+    .email('Invalid email')
+    .transform(val => val.toLowerCase().trim()),
     
   password: z
     .string()

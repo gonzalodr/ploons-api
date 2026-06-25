@@ -44,11 +44,10 @@ export class FollowService {
         return { status: "followed" };
     }
 
-    // 3. X user <- followers (Those who follow me?)
+    // 2. X user <- followers (Those who follow targetUserId)
     async getFollowers(targetUserId: string, page: number = 1, limit: number = 20, currentUserId?: string) {
-        // 1. get skip
         const skip = (page - 1) * limit;
-        // 2. get followers
+
         const [followers, total] = await prisma.$transaction([
             prisma.follows.findMany({
                 where: { following_id: targetUserId },
@@ -63,10 +62,10 @@ export class FollowService {
                             last_name: true,
                             avatar_url: true,
                             ...(currentUserId && {
-                                // Does the list user follow me?
-                                following: { where: { following_id: currentUserId } },
-                                // Do I follow the list user?
-                                followers: { where: { follower_id: currentUserId } }
+                                // ¿El usuario de la lista sigue a currentUserId?
+                                follows_follows_follower_idToprofiles: { where: { following_id: currentUserId } },
+                                // ¿currentUserId sigue al usuario de la lista?
+                                follows_follows_following_idToprofiles: { where: { follower_id: currentUserId } }
                             })
                         }
                     }
@@ -77,8 +76,8 @@ export class FollowService {
 
         const data = followers.map(f => {
             const profile = f.profiles_follows_follower_idToprofiles as any;
-            const iFollowThem = currentUserId ? profile.followers?.length > 0 : false;
-            const theyFollowMe = currentUserId ? profile.following?.length > 0 : false;
+            const iFollowThem = currentUserId ? profile.follows_follows_following_idToprofiles?.length > 0 : false;
+            const theyFollowMe = currentUserId ? profile.follows_follows_follower_idToprofiles?.length > 0 : false;
 
             return {
                 id: profile.id,
@@ -98,11 +97,10 @@ export class FollowService {
         return formatPagination(data, page, limit, total);
     }
 
-    // 4. X user -> following (Who do I follow?)
+    // 3. X user -> following (Who does targetUserId follow?)
     async getFollowing(targetUserId: string, page: number = 1, limit: number = 20, currentUserId?: string) {
-        // 1. get skip
         const skip = (page - 1) * limit;
-        // 2. get following
+
         const [following, total] = await prisma.$transaction([
             prisma.follows.findMany({
                 where: { follower_id: targetUserId },
@@ -117,8 +115,10 @@ export class FollowService {
                             last_name: true,
                             avatar_url: true,
                             ...(currentUserId && {
-                                following: { where: { following_id: currentUserId } },
-                                followers: { where: { follower_id: currentUserId } }
+                                // ¿El usuario de la lista sigue a currentUserId?
+                                follows_follows_follower_idToprofiles: { where: { following_id: currentUserId } },
+                                // ¿currentUserId sigue al usuario de la lista?
+                                follows_follows_following_idToprofiles: { where: { follower_id: currentUserId } }
                             })
                         }
                     }
@@ -129,8 +129,8 @@ export class FollowService {
 
         const data = following.map(f => {
             const profile = f.profiles_follows_following_idToprofiles as any;
-            const iFollowThem = currentUserId ? profile.followers?.length > 0 : false;
-            const theyFollowMe = currentUserId ? profile.following?.length > 0 : false;
+            const iFollowThem = currentUserId ? profile.follows_follows_following_idToprofiles?.length > 0 : false;
+            const theyFollowMe = currentUserId ? profile.follows_follows_follower_idToprofiles?.length > 0 : false;
 
             return {
                 id: profile.id,

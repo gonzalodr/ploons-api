@@ -21,9 +21,11 @@ export class ImageManagerService {
       if (oldImageUrl) {
         const oldPublicId = this.extractPublicIdFromUrl(oldImageUrl);
         if (oldPublicId) {
-          CloudinaryService.deleteImage(oldPublicId).catch(err => {
+          try {
+            await CloudinaryService.deleteImage(oldPublicId);
+          } catch (err) {
             console.error(`Failed to delete old image ${oldPublicId}:`, err);
-          });
+          }
         }
       }
       const result = await CloudinaryService.uploadBuffer(file, folder, publicId);

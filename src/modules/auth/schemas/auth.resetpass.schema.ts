@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const forgotPasswordSchema = z.object({
-  email: z.email('Invalid email'),
+  email: z.email('Invalid email').transform(val => val.toLowerCase().trim()),
 });
 
 export const resetPasswordSchema = z.object({
