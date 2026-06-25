@@ -8,7 +8,7 @@ export class ChatService {
    */
   async getOrCreateConversation(user1Id: string, user2Id: string) {
     if (user1Id === user2Id) {
-      throw new AppError('No puedes chatear contigo mismo', StatusCodes.BAD_REQUEST);
+      throw new AppError('You cannot chat with yourself', StatusCodes.BAD_REQUEST);
     }
 
     // Sort IDs to ensure uniqueness in the unique constraint [user1Id, user2Id]
@@ -78,7 +78,7 @@ export class ChatService {
     });
 
     if (!conversation || (conversation.user1_id !== currentUserId && conversation.user2_id !== currentUserId)) {
-      throw new AppError('Conversación no encontrada o acceso denegado', StatusCodes.FORBIDDEN);
+      throw new AppError('Conversation not found or access denied', StatusCodes.FORBIDDEN);
     }
 
     return prisma.messages.findMany({

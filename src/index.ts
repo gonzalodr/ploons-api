@@ -16,7 +16,7 @@ import { initSocket } from '@sockets/index';
 
 const PORT = process.env.PORT || 4000;
 const ENVIRONMENT = process.env.ENVIRONMENT || 'development';
-const FRONTEND_URL = ENVIRONMENT === 'production' ? process.env.FRONTEND_URL : 'http://127.0.0.1:3000';
+const FRONTEND_URL = ENVIRONMENT === 'production' ? process.env.FRONTEND_URL : 'http://localhost:3000';
 
 if (ENVIRONMENT === 'production' && !FRONTEND_URL) {
   throw new Error('FRONTEND_URL is required in production');
@@ -58,7 +58,7 @@ app.use(cookieParser());
 
 // 2. path test and documentation with swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.get('/health', (req, res) => { res.json({ status: 'ok', message: 'Run server' }); });
+app.get('/health', (req, res) => { res.json({ status: 'ok', message: 'Server is running' }); });
 
 // 4. End point integrations
 import authRouter from '@module/auth/auth.routes';

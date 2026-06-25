@@ -1,22 +1,22 @@
-import { date, z } from 'zod';
+import { z } from 'zod';
 import { loginSchema } from '@module/auth/schemas/auth.login.schema';
 
 export const registerSchema = loginSchema.extend({
     first_name: z
         .string()
-        .min(2, 'El nombre debe tener al menos 2 caracteres')
-        .max(50, 'El nombre es demasiado largo')
-        .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/, 'El nombre solo debe contener letras'),
+        .min(2, 'Name must be at least 2 characters')
+        .max(50, 'Name is too long')
+        .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/, 'Name must only contain letters'),
 
     last_name: z
         .string()
-        .min(2, 'El apellido debe tener al menos 2 caracteres')
-        .max(50, 'El apellido es demasiado largo')
-        .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/, 'El apellido solo debe contener letras'),
+        .min(2, 'Last name must be at least 2 characters')
+        .max(50, 'Last name is too long')
+        .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/, 'Last name must only contain letters'),
     confirmPassword: z.string()
 
 }).refine((data) => data.confirmPassword === data.password, {
-    message: "Las contraseñas no coinciden",
+    message: "Passwords do not match",
     path: ["confirmPassword"],
 });
 

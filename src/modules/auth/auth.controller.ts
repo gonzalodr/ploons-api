@@ -78,7 +78,7 @@ export class AuthController {
     }
 
     await this.authService.updatePassword(password, token, refresh_token);
-    return res.status(StatusCodes.OK).json({ message: "Contraseña actualizada correctamente" });
+    return res.status(StatusCodes.OK).json({ message: "Password updated successfully" });
   });
 
   // 7. refresh token

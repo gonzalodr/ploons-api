@@ -34,7 +34,7 @@ export class SearchController {
     // 3. validate querys
     private validateQueryParams(query: any) {
         const querySchema = z.object({
-            q: z.string().min(2, "La búsqueda debe tener al menos 2 caracteres").max(50),
+            q: z.string().min(2, "Search must be at least 2 characters").max(50),
             page: z.preprocess((val) => parseInt(val as string) || 1, z.number().min(1)),
             limit: z.preprocess((val) => parseInt(val as string) || 10, z.number().min(1))
         });

@@ -9,24 +9,24 @@ export const updateProfileSchema = z.object({
   social_media: z.object({
     instagram: z
       .string()
-      .regex(socialRegex('instagram'), "Enlace de Instagram no válido")
+      .regex(socialRegex('instagram'), "Invalid Instagram link")
       .or(z.literal(""))
       .optional(),
     
     twitter: z
       .string()
-      .regex(/^(https?:\/\/)?(www\.)?(twitter\.com|x\.com)\/[a-zA-Z0-9(_)]+\/?$/, "Enlace de Twitter/X no válido")
+      .regex(/^(https?:\/\/)?(www\.)?(twitter\.com|x\.com)\/[a-zA-Z0-9(_)]+\/?$/, "Invalid Twitter/X link")
       .or(z.literal(""))
       .optional(),
     
     facebook: z
       .string()
-      .regex(socialRegex('facebook'), "Enlace de Facebook no válido")
+      .regex(socialRegex('facebook'), "Invalid Facebook link")
       .or(z.literal(""))
       .optional(),
     
     website: z
-      .url("Debe ser una URL válida (ej: https://tusitio.com)")
+      .url("Must be a valid URL (e.g. https://yoursite.com)")
       .or(z.literal(""))
       .optional(),
   }).optional()

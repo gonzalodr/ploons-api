@@ -63,9 +63,9 @@ export class FollowService {
                             last_name: true,
                             avatar_url: true,
                             ...(currentUserId && {
-                                // ¿El usuario de la lista me sigue a mí?
+                                // Does the list user follow me?
                                 following: { where: { following_id: currentUserId } },
-                                // ¿Yo sigo al usuario de la lista?
+                                // Do I follow the list user?
                                 followers: { where: { follower_id: currentUserId } }
                             })
                         }

@@ -13,7 +13,7 @@ export class AuthService {
     const { email, password, first_name, last_name } = input;
     const existingUser = await prisma.profiles.findFirst({ where: { email: email } });
     if (existingUser) {
-      throw new AppError('Este correo electrónico ya está registrado', StatusCodes.CONFLICT);
+      throw new AppError('This email is already registered', StatusCodes.CONFLICT);
     }
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -30,7 +30,7 @@ export class AuthService {
     }
 
     return {
-      message: "Código de verificación enviado al correo",
+      message: "Verification code sent to email",
       user: {
         id: data.user?.id,
         email: data.user?.email
@@ -82,15 +82,24 @@ export class AuthService {
     if (error) {
       throw new AppError(error.message, error.status);
     }
-    return { message: "Código de recuperación enviado" };
+    return { message: "Recovery code sent" };
   }
   // 5. verify password opt
   async verifyResetPasswordOtp(email: string, token: string) {
+    const existingUser = await prisma.profiles.findFirst({
+      where: { email },
+    });
+
+    if (!existingUser) {
+      throw new AppError('No account found with that email', StatusCodes.NOT_FOUND);
+    }
+
     const { data, error } = await supabase.auth.verifyOtp({
       email,
       token,
       type: 'recovery',
     });
+
 
     if (error) throw new AppError(error.message, error.status);
     return {
@@ -142,7 +151,7 @@ export class AuthService {
     });
     const { error } = await supabase.auth.signOut();
     if (error) throw new AppError(error.message, error.status);
-    return { message: "Sesión cerrada" };
+    return { message: "Session closed" };
   }
 
 }

@@ -67,7 +67,7 @@ export class FollowController {
     getFollowers = catchAsync(async (req: Request, res: Response) => {
         // 1. get data
         const userId = req.user?.id;
-        const targetUserId = req.params.userId;
+        const targetUserId = req.params.userId as string;
         const page = parseInt(req.query.page as string) || 1;
         const limit = parseInt(req.query.limit as string) || 20;
         // 2. validate
@@ -84,7 +84,7 @@ export class FollowController {
     getFollowing = catchAsync(async (req: Request, res: Response) => {
         // 1. get data
         const userId = req.user?.id;
-        const targetUserId = req.params.userId;
+        const targetUserId = req.params.userId as string;
         const page = parseInt(req.query.page as string) || 1;
         const limit = parseInt(req.query.limit as string) || 20;
         // 2. validate

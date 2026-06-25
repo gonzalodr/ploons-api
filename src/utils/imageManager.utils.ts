@@ -7,7 +7,7 @@ export class ImageManagerService {
    * Sube una imagen y elimina la anterior si existe
    * @param file Buffer del archivo
    * @param folder Carpeta en Cloudinary
-   * @param publicId ID público de la imagen
+   * @param publicId Public ID of the image
    * @param oldImageUrl URL de la imagen anterior (opcional)
    * @returns URL de la nueva imagen
    */

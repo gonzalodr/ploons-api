@@ -169,7 +169,7 @@ export class RecipeService {
         );
     }
 
-    // 6. método base privado para evitar duplicación
+    // 6. private base method to avoid duplication
     private async getRecipeBase(where: any, userId?: string) {
         const recipe = await prisma.recipes.findFirst({
             where,
@@ -239,7 +239,7 @@ export class RecipeService {
     async getMyListRecipes(userId: string, page: number = 1, limit: number = 10) {
         const skip = (page - 1) * limit;
 
-        // Usar Promise.all en lugar de transaction (más eficiente)
+        // Use Promise.all instead of transaction (more efficient)
         const recipes = await prisma.recipes.findMany({
             where: { user_id: userId },
             take: limit,
