@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { authenticate } from "@middlewares/auth.middleware";
 import { CommentController } from "@module/comment/comment.controller";
-import { optional } from "zod";
 import { authOptional } from "@middlewares/authOptional.middlewares";
 const router = Router();
 const controller = new CommentController();

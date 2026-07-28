@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ChatService } from './chat.service';
 import { catchAsync } from '@utils/catchAsync.utils';
-import { sendMessageSchema, getMessagesSchema } from './schemas/chat.schema';
+import { sendMessageSchema, getMessagesSchema } from '@module/chat/schemas/chat.schema';
 import { AppError } from '@utils/appError.utils';
 
 export class ChatController {

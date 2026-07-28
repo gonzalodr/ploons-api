@@ -3,7 +3,6 @@ import { z, ZodError } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 
 import { AppError } from '@utils/appError.utils';
-import { formatError } from '@utils/zodError.utils';
 import { RecipeService } from "@module/recipe/recipe.service";
 import { createRecipeSchema } from '@module/recipe/schemas/recipe.create.schema';
 import { updateRecipeSchema } from '@module/recipe/schemas/recipe.update.schema';
@@ -123,4 +122,4 @@ export class RecipeController {
         // 4. send result
         return res.status(StatusCodes.OK).json(result);
     });
-}
+}

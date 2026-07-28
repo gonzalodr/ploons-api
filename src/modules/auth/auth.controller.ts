@@ -4,10 +4,10 @@ import { StatusCodes } from 'http-status-codes';
 
 import { AuthService } from '@module/auth/auth.service';
 import { AppError } from '@utils/appError.utils';
-import { forgotPasswordSchema, resetPasswordSchema } from 'src/modules/auth/schemas/auth.resetpass.schema';
-import { registerSchema } from 'src/modules/auth/schemas/auth.register.schema';
-import { loginSchema } from 'src/modules/auth/schemas/auth.login.schema';
-import { verifyOtpSchema } from './schemas/auth.verify.schema';
+import { forgotPasswordSchema, resetPasswordSchema } from '@module/auth/schemas/auth.resetpass.schema';
+import { registerSchema } from '@module/auth/schemas/auth.register.schema';
+import { loginSchema } from '@module/auth/schemas/auth.login.schema';
+import { verifyOtpSchema } from '@module/auth/schemas/auth.verify.schema';
 import { catchAsync } from '@utils/catchAsync.utils';
 
 export class AuthController {

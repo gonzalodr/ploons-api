@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticate } from "@middlewares/auth.middleware";
-import { RecipeController } from "src/modules/recipe/recipe.controller";
+import { RecipeController } from "@module/recipe/recipe.controller";
 import { } from "@middlewares/multer.middleware";
 import { uploadSingle, validateImage } from "@middlewares/multer.middleware";
 const router = Router();
